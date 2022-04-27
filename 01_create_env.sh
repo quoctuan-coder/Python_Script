@@ -6,3 +6,8 @@ then
     mkdir -p $name
 fi
 virtualenv -p "C:\Users\tuan.tran-quoc.BANVIENCORP\AppData\Local\Programs\Python\Python39\python.exe" "$name/env"
+
+# Get requirement library
+# pip freeze > requirements.txt
+# Install follow requirements
+# pip install -r requirements.txt

@@ -1,0 +1,15 @@
+read 
+maintain
+test
+expand
+
+N & V
+
+N,N-phrase: Class, Object, Variable
+-constan: Viết Hoa (PI)
+-Class: Plane()
+- int size;
+
+V: method,function
+
+-camelCase - sneak_case
