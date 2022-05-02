@@ -1,0 +1,3 @@
+    author = '# Author: TuanTran\n'
+    github = '# Github: https://github.com/quoctuan-iot\n'
+    email = '# Email: quoctuan.iot@gmail.com\n\n'

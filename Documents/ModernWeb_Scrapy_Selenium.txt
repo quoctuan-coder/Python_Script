@@ -1,0 +1,70 @@
+1. Intro 
+    1. Scrapy
+
+        spiders
+            scrapy.spider
+            Srawlspider
+                XML
+                CVS
+                Sitemap
+
+        pipelines
+            cleaning the data
+            remove duplicatuon
+            storing data
+
+        Middlewares
+            request/response
+            Injection custom headers
+            Proxying
+
+        Engine
+        Scheduler
+
+            quoteseveryday.com
+
+    2.
+    robots.txt
+        Ex: facebook.com/robots.txt
+    
+    User-agent
+        Allow
+        Disallow
+
+2. Setup env
+    Anaconda
+    virtualenv
+        scrapy==1.6.0
+
+======
+Section 2: Scrapy fundamentals
+3. Project: website worldometers (https://www.worldometers.info/world-population/population-by-country/)
+
+    Command=====================================
+    Don't find pip: python -m ensurepip --default-pip
+    pip install pyspark    
+
+        ====terminal==============
+        scrapy shell
+        
+        view(response)
+
+        title = response.xpath('//h1')
+        title.get()
+        title_css = response.css('h1::text')
+        title_css.get()
+        countries = response.xpath('//td/a/text()').getall()
+        countries_css = response.xpath('tt a::text()').getall()
+
+        CSS selectors   xpath selectors
+            try.jsoup.org
+
+        
+
+        
+    
+
+
+
+
+
