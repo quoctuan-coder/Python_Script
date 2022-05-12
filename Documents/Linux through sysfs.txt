@@ -1,0 +1,98 @@
+    https://man7.org/linux/man-pages/man5/sysfs.5.html 
+
+    sysfs 
+        - is a filesytem for exporting kernel objects
+        - It provides an interface to kernel data structures.
+        - information about devices,kernel module, filesytems, other kernel components.
+        - Typically, it is mounted automatically by the system.
+        - at /sys
+        - Many of the file are read-only
+        - Some files are writable.
+
+    /sys/class/
+        - Everything is a file in linux, from system information to hardware devices.
+        - These symbolic links refer to entries in the /sys/devices directory 
+
+    1. PWM
+        How to use pwmchip interface.
+            /sys/class/pwm/pwmchip1/
+                enable
+                Ex:
+                    echo 1 > enable : enable PWM
+                    echo 0 0> enable : disable PWM
+                period
+                duty_cycle
+                polarity
+                unexport
+                export
+
+        
+    2. GPIO
+            /sys/class/gpio/
+                export
+                unexport
+                gpio189/direction
+                get_value
+                    read()
+                    HIGH, LOW
+                set_value
+                    write()
+                edge 
+                    Rising:
+                    Failing:
+                    Both:
+                    None: Disable interrupt
+
+    -----------------------------------------------------------
+    Virtual memory
+    3. USB
+        Using libusb.h
+            init()
+            exit()
+            get_device_list() : Number of the device in system
+            free_device_list()
+            get_device_address()
+            get_device_desciptor()
+            open()
+            close()
+            open_device_via_pia()
+            get_version()
+            get_device()
+            get_device_speed()
+            get_config_descriptor()
+
+    4. MMC (MultiMediaCard)
+        open()
+        close()
+        write()
+        read()
+        send_ext_csd()
+        protect()
+        bus_width()
+        earse()
+
+        struct mmc_ioc_cmd
+        mmc_ioc_cmd_set_data()
+
+    5. SD_card
+        open()
+        close()
+        read()
+        write()
+
+    ----------------------------------------------------------
+    Communication
+    6. I2C
+        open()
+        close()
+        read()
+        write()
+        i2c_func()
+        i2c_slave()
+        i2c_smbus()
+
+    7. AVB (Audio/Video Bridging)
+        Local Area Networks (LANs).
+
+
+

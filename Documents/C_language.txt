@@ -1,0 +1,67 @@
+    1. 
+        #include <stdio.h>
+
+        sprintf(char *str, const char *string,...); 
+        -> It store output on char buffer 
+    Ex: 
+        char buffer[100];
+        int a = 5;
+        int b = 10;
+        int c = a + b;
+        sprintf(buffer,"Sum of %d and %d is %d", a,b,c);
+        printf("%s",buffer);
+
+    2. 
+        #include <fcntl.h>
+
+        int open(const char *pathname, int flags, mode_t mode);
+        - Desciptions: The open() system call opens the file specified by pathname
+        - Arguments
+            mode_t: O_RDONLY, O_WRONLY, O_RDWR
+        - Return: 
+            On success:
+            - Return the new file descriptor
+            - Nonnegative integer
+            On errror:
+            - -1 is returned 
+
+    3.
+        #include <unistd.h>
+
+        ssize_t write(int fd, const void *buf, size_t count);
+        - Desciptions: 
+        - Arguments: 
+            size_t count:
+        - Return:
+            On success:
+            - The number of bytes written is returned.
+            On errror:
+            - -1 is returned.
+
+
+    4. 
+        #include <sys/ioctl.h>
+
+        int ioctl(int fd, unsigned long request, ...);
+
+
+    5. 
+        void *memset(void *ptr, int x, size_t n);
+        - Desciptions: is used to fill a block of memory with a particular value.   
+        - Arguments:
+            ptr: Starting address of memory to be filled.
+            x: value to be filled.
+            n: Number of bytes to be filled starting from ptr to be filled.
+
+        Ex:
+            char str[50] = "GeeksForGeeks is for programming geeks.";
+            memset(str + 13, '.', 8*sizeof(char));
+
+            Before memset(): GeeksForGeeks is for programming geeks.
+            After memset(): GeeksForGeeks........programming geeks.
+
+    6. 
+    
+
+
+

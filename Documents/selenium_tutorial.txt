@@ -1,0 +1,134 @@
+    Interview questions?
+    
+1. How to install, download webdriver?
+
+2. How to load webdriver?
+
+3. How to Send request to server?
+
+
+
+4. Method to controll web? Some the common web driver command?
+
+5. What is selenium?
+    - open-source automated testing framework for validating web app. across multiple browser and 
+    platforms.
+    Components:
+        - IDE, Selenium RC, Selenium Web driver, Selenium GRID
+
+6. What is mean by selenium suite and what are its different components?
+7. What is automation testing, and what are its advantages?
+    - Automation testing or test automation 
+    - Paralled execution 
+    - It supports both the performance and functional testing.
+    - Helps in testing a large scale matrix
+    - save time, money
+
+8. What are the advantages of using selenium as an automation tool?
+    - open-source
+    - Language assistance
+    - Compatible with a variety of operating system
+    - Regular updateds
+    - Tests on varuety of deivices
+    - Selenium suites wit a lot of content
+
+9. Can selenium be used to launch web browsers?
+    - Selenium provides good support to launch web browsers:
+    Google chrome, Firefox, Explorer,etc.
+
+30. What are the disadvantages of using Selenium as a testing tool?
+    - Tests web only: Mobile app, captcha, barcode reader canoot be tested.
+    - No build-in reporting and testing: Using third-party
+    - Since Selenium is a open source, no dedicated support for user
+
+10. What is meant by selenese? Explain different types of selenium commamds?
+    - selenese is Language used for writin test scropts in Selenium IDE.
+    - Actions: 
+    - Accessors:
+    - Assertions:
+
+11. What is meant by a locator and name a few different types of locators present in selenium?
+    - locator is address for uniquely identifying web elements.
+    - ID, 
+    - ClassName, 
+    - Name , 
+    - TangName, 
+    - Linktest, 
+    - PartialLinkTest, 
+    - Xpath, 
+    - CSS selector, 
+    - DOM
+
+12. State the major difference between "assert" and verify" commamds in selenium?
+    - Assert: Stop executeion of the testing if condition is true, false is continue
+    - Verify: Don't stop flow of execution, only verify the condition
+
+13. What is meant by XPath in selenium. Explain XPath absolute and XPath relative?
+    - XPath is a language used to query XML document.
+    - A single slash '/' for creating an absolute,
+    - A double slase '//' for creating a relative path.
+
+14. In XPath, what is difference between "/" and "//"
+    - Absolute: /html/body/div/div/form/input
+    - Relative: //input[@id = 'emial']
+
+15. What is the difference between the commands "type" and "typeAndWait" in the context of selenium?
+    - type: used to enter keyboard key values into web app text box, combo box.
+    - typeAndWait: used when finish typing and page begins to reload. If there is not page reload event on
+    typing, then you have to use simple 'type' commnad.
+    
+16. Differentiale betwenn "findElement()" and "findElements()" in the context of selenium with proper example
+    - findElement: Return the first web element that matches the locator.
+                    Exception No such Element -> Produced.
+    
+    - findElements: Return list of all the web items that match the locator.
+                    Empty list is returned.
+
+17. In selenium, How will you wait until a web pae has been loaded completely?
+    - There are two methods.
+    - set an implicit wait: 
+        temp = driver.Manage().Timeouts().ImplicitWait;
+        On every page navigation or reload. this will try to wait until the page is fully loaded.
+    
+    - Call JavaScript return. 
+        new WebDriverWait(firefoxDriver, pageLoadTimeout).until(
+        webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    
+18. Explain the difference between driver.close() and driver.quit() command in selenium?
+    - close(): close the curently active window. which the accessed by the web driver.
+    - quit(): close all the windows opened by the program.
+
+19. Explain the various navigation commands support ed by selenium?
+    - 4 navigation commands:
+        - navigate().back(): taking the user to te last webpage of the browser history
+        - .forward(): next page
+        - refresh(): refresh it
+        - to(): navigate to particular URL, URL as a parameter.
+
+20. Explain the same origin policy and how selenium handles its?
+    - 
+
+22. What do you understand about Jenkins? Why are the benifits of using it with selenium?
+    - Jenkins is a jave application.
+    - Is the most popular open-source 
+    - To keep track of any job.
+    - Specific event in an application occurs, ->It triggers actions.
+
+    - test project in continuous integration using Maven
+    - Execute at a predetermined time.
+    - Execution history can be saved.
+    
+23. What do you understand about kroken links? How can you detect broken links in Selenium?
+Explain properly with code?
+    - Link are not reachable.
+    - The 4xx class of status code: client-side errors,
+    - the 5xx class is: response errors.
+
+
+24. What is a basic step to crawl data from web browser?
+    - Open web driver
+    - Login ()
+    - Search for information we want
+    - Save information
+    
+

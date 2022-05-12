@@ -1,0 +1,25 @@
+insufficient space : Không đủ dung lượng
+There is insufficient space on the underlying physical medium.
+
+hierarchy: Hệ thống cấp bậc
+    The following list describes some of the files and directories under the /sys hierarchy.
+
+polarity : Phân cực 
+    The polarity can only be changed if the PWM is not enabled
+    inversed : Đảo ngược
+    normal : Bình thương
+
+
+------------------------------------------------------------------
+LAN (Local Area Network)
+IP (Internet protocol)
+PATA (Parallel ATA)
+S/P( Support)
+WAN(Wide area Network)
+
+
+
+
+------------------------------------------------------------------
+
+

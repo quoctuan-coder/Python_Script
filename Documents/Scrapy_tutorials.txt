@@ -1,0 +1,67 @@
+    Link refer: https://docs.scrapy.org/en/latest/intro/tutorial.html
+
+
+        1. Creating a new project
+        2. Writing a spider to crawl a site and extract data
+        3. Exporting the scraped data using command line
+        4. Changing a spider to recursively follow links
+        5. Using spider arguments
+
+        1. scrapy startproject tutorial
+        2. Extract data using shell
+        - scrapy shell 'link'
+        ---Css
+        - response.css(title::text).getall()
+        ---XPath
+        - response.xpath('//title/text).getall()
+
+        -- Extract class
+        'div.name class'
+
+        --- Extract data using spider
+
+2 -------------------------------------------------------------------------------------------
+    - extract data from HTML source 
+        BeautifulSoup
+            - Based on the structure of the HTML code
+            - It has on drawback: it is slow
+        lxml
+
+        scrapy: 
+            - Selectors (xPath, css)
+                -xPath: for selecting nodes in XML documents.
+                - css: for applying styles to HTML documents. It defines selectors to associate those styles with 
+                specific HTML elements.
+
+                - get(): return one element in selectors list  = extract_first()
+                - getall(): return selectors list              = extract()
+
+            - extract all <p> elements inside <div> elements
+                divs = response.xpath('//div')
+                for p in divs.xPath('.//p'):
+                    p.get()
+
+            - 
+
+        Ex:
+            response.xpath('//title/text()).get()
+            response.css('title::text').get()
+            --> It returns None, if no element was found
+
+            response.css('img').xpath('@src').getall()
+            response.css('img').attrib['src']
+
+            [img.attrib['src] for img in response.css('img)]
+
+            --- Get Link
+            response.xpath('//base/@href').get()
+
+            response.css('base::attr(href')).get()
+            or: response.css('base').attib['href']
+
+
+
+
+            
+
+

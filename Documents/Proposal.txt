@@ -1,0 +1,17 @@
+I have read through the job description, I have found that it matches my experience.
+I have experience in using Selenium, beautifulsoup and scrapy to crawl data from websites.
+
+The project I completed is to get candidate information from LinkedIn.
+In this project I have taken the name, email, link profile of the candidate in the company field 
+I am looking for. Then automatically send contact information to each candidate.
+
+If I get this job,the source code will be updated until it meets your requirements. 
+The job will be completed on time and with the best results.
+
+I'm new to freelance on upword, just finished 1 job. I have received positive reviews from customers.
+
+"Tuan wrote a really great Python text processing program/utility/GUI for me.
+He followed my instructions/requirements exactly with absolutely no fuss.
+He got the job done quickly with a great "can do!" attitude.
+1000% I am recommending Tuan for any project you may have!
+I will definitely use Tuan again!"

@@ -1,0 +1,4 @@
+1. Web crawling 
+2. Web scraping
+3. Data mining
+

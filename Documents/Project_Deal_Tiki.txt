@@ -1,0 +1,16 @@
+1. Diagram
+2. Read file
+3. Read modules in python
+4. Thread, multiple Thread
+
+In this project we will learn:
+1. How to read data from file
+2. How to create class and working with OOP (Object Oriented
+Programming)
+3. How to use module Request to get data from a web site
+4. How to use module Beautiful Soup to parse data from from html
+contents from above step.
+5. How to create a Thread and how to work with multiple threads at a time.
+6. Also know how to handle code with difference operating system.
+Above knowlegde is very nesseary when you crawling data from some where.
+

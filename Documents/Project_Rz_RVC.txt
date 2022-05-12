@@ -1,0 +1,176 @@
+unset LD_LIBRARY_PATH
+
+source /opt/poky/3.1.14/environment-setup-aarch64-poky-linux
+export LDFLAGS=""
+export LIBSHARED=/opt/poky/3.1.14/sysroots/aarch64-poky-linux/usr/lib
+export BUILDDIR=/opt/poky/3.1.14/sysroots/aarch64-poky-linux/usr/include
+export KERNELSRC=/opt/poky/3.1.14/sysroots/aarch64-poky-linux/usr/src/kernel
+
+
+_V2LSMARC 
+
+
+================================================================
+source /opt/poky/3.1.11/environment-setup-aarch64-poky-linux
+LIB_DIR=opt/poky/3.1.11/sysroots/aarch64-poky-linux
+
+Test case 'dEQP-GLES2.functional.fbo.completeness.renderable.texture.color0.rgb_half_float_oes'.. 	  Fail (Framebuffer checked as complete, expected incomplete)
+Test case 'dEQP-GLES2.functional.fbo.completeness.renderable.texture.color0.rgba_half_float_oes'.. 	  Fail (Framebuffer checked as complete, expected incomplete
+
+
+glsFboCompletenessTests.cpp
+
+ gl(*this).checkFramebufferStatus(GL_FRAMEBUFFER); ->  fboStatus
+ 
+  validStatus <- reference.isFBOStatusValid(fboStatus)
+
+
+
+cmake .. -DDEQP_TARGET=wayland -DDE_CPU=DE_CPU_ARM_64 -DGLCTS_GTF_SUPPORT_GLES3=ON -DGLCTS_GTF_SUPPORT_GLES2=ON -DDEQP_GLES2_LIBRARIES=${LIB_DIR}/usr/lib64/libGLESv2.so -DDEQP_GLES3_LIBRARIES=${LIB_DIR}/usr/lib64/libGLESv2.so
+
+
+CAN 
+K-BSP_026_31_001 -> K-BSP_026_31_004
+
+GPIO OK
+
+I2C
+K-BSP_016_08_749 -> K-BSP_016_08_754: need to reset board
+
+--- detect I2C
+i2cdetect -l
+
+./01_run_all.sh K-BSP_016 > log_K-BSP_v2l_info_016_I2C
+
+
+Report:  IT
+Failed case:
+  CAN:
+    K-BSP_026_31_001 -> K-BSP_026_31_004 (test case LOOPBACK)
+
+  Serial:
+    774 Test cases related to /dev/ttySC1. 
+    -> /dev/ttySC1 don't exist
+
+  LCDC:
+    K-BSP_010_06_001
+    K-BSP_010_07_001
+    K-BSP_010_07_003
+    Dont' reset weston by command in file test_config.sh 
+    -> So, Need to find id weston and kill by command (kill <id weston>).
+
+  MMC:
+    K-BSP_012_08_001
+    K-BSP_012_08_003
+    K-BSP_012_08_005
+    -> Blocks are not earsed 
+
+  PWM:
+    K-BSP_021_04_001
+    K-BSP_021_04_010
+    K-BSP_021_04_011
+    K-BSP_021_04_015
+    -> Duty_cycle is not set 
+
+  RSPI:
+    14 Test cases related to /dev/spidev1.0. 
+    -> /dev/spidev1.0 don't exist
+
+  ADC:
+    8 Test cases related to 
+      /sys/bus/iio/devices/iio\:device0/in_voltage6_raw
+      /sys/bus/iio/devices/iio\:device0/in_voltage7_raw
+    -> Devices don't exist.
+
+
+
+Report:  ST
+Video_Capture_15, Video_Capture_23:
+  Update S-PATH 
+
+MultiDisplay_01:
+  Only 2 video
+  -> Don't init weston
+
+
+Report IT:
+  CAN:
+    ip link show
+    can0: <NOARP,ECHO> mtu 72 qdisc noop state DOWN mode DEFAULT group default qlen 10
+      link/can
+    can1: <NOARP,ECHO> mtu 72 qdisc noop state DOWN mode DEFAULT group default qlen 10
+      link/can
+
+  Serial:
+    ls /dev/ttyS*
+    /dev/ttySC0
+  MMC:
+
+
+  PWM:
+  ls -l /sys/class/pwm/
+    pwmchip0
+
+  RSPI:
+    ls -1 /dev/spidev1.*
+    Don't exist (/dev/spidev1.*: No such file or directory)
+
+ADC:
+  ls -l /sys/bus/iio/devices/iio\:device0/
+  in_voltage0_raw
+  in_voltage1_raw
+  in_voltage2_raw
+  in_voltage3_raw
+  in_voltage4_raw
+  in_voltage5_raw
+
+I2C:
+  ls -l /dev/i2c-*
+  /dev/i2c-0  /dev/i2c-1  /dev/i2c-3
+
+  root@smarc-rzv2l:~# i2cdetect -y 0
+       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+  00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+  10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  30: -- -- -- -- -- -- -- -- -- -- -- -- UU -- -- --
+  40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  70: -- -- -- -- -- -- -- --
+
+  root@smarc-rzv2l:~# i2cdetect -y 1
+       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+  00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+  10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  30: -- -- -- -- -- -- -- -- UU -- -- -- UU UU -- UU
+  40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  70: -- -- -- -- -- -- -- --
+
+  root@smarc-rzv2l:~# i2cdetect -y 3
+       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+  00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+  10: -- -- -- -- -- -- -- -- -- -- UU -- -- -- -- --
+  20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  60: -- -- -- -- -- -- -- -- 68 -- -- -- -- -- -- --
+  70: -- -- -- -- -- -- -- --
+
+
+
+
+
+K-BSP_007_07_067: Duplicate code
+
+
+AM Bass 4231323 (3 time)
+DM Bass 3231 Re(0-4) Mi(2-4) Fa(3-4) La(2-3) Do(1-2)
+Si(0-2) G(3-26) La(2-3) Fa(3-4) Mi(2-4) C((45) 4 3)  
+Do(3-5) Re(0-4) Mi(2-4) La(2-4) Sol#(1-2)
+Fa(3-4) Mi(2-4) Am(45 4231323) Dm(Bass 3231)
+Re Fa La Sol# E7
