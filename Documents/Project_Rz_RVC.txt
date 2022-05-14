@@ -168,6 +168,128 @@ I2C:
 K-BSP_007_07_067: Duplicate code
 
 
+
+
+Report ST 
+USB3.0
+
+Multiple displace
+
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=0 position-y=0; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=0 position-y=541; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! qtdemux ! queue ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=961 position-y=0; echo $? > $dir/$BASHPID ; } &
+
+
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=0 position-y=0; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=0 position-y=541; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=961 position-y=0; echo $? > $dir/$BASHPID ; } &
+
+
+04
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_1280x720_Progressive_20Mbits_30fps.h264 ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! video/x-raw,width=960,height=540 ! waylandsink position-x=0 position-y=0; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_704x400_Progressive_20Mbits_30fps.3gp ! qtdemux ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! waylandsink position-x=961 position-y=0; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_704x400_Progressive_20Mbits_30fps.3gp ! qtdemux ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! waylandsink position-x=0 position-y=541; echo $? > $dir/$BASHPID ; } &
+{ gst-launch-1.0 filesrc location=./big_buck_bunny_h264_YUV420_planar_Main_Profile_Level_1_704x400_Progressive_20Mbits_30fps.3gp ! qtdemux ! h264parse ! omxh264dec ! vspmfilter outbuf-alloc=true dmabuf-use=true ! waylandsink position-x=961 position-y=541; echo $? > $dir/$BASHPID ; } &
+
+
+Report:
+
+Add qtdemux ! queue !
+
+
+
+root@smarc-rzv2l:/Test_program/MultiDisplay_01# ./test_exec.sh
+[test_start:test_case]
+[test_timeout:600]
+ERROR: from element /GstPipeline:pipeline0/GstQTDemux:qtdemux0: This file is invalid and cannot be played.
+Additional debug info:
+../git/gst/isomp4/qtdemux.c(777): gst_qtdemux_pull_atom (): /GstPipeline:pipeline0/GstQTDemux:qtdemux0:
+atom has bogus size 17050672181995931648
+ERROR: pipeline doesn't want to preroll.
+./S-PATH_TP.sh: line 5: /tmp/tmp.RtI2GV/: Is a directory
+cat: /tmp/tmp.RtI2GV/*: No such file or directory
+./S-PATH_TP.sh: line 13: [: -ne: unary operator expected
+
+
+show 3 videos
+root@smarc-rzv2l:/Test_program/MultiDisplay_01# ./test_exec.sh
+[test_start:test_case]
+[test_timeout:600]
+MMI ALLOC: Cannot allocate memory
+ERROR: from element /GstPipeline:pipeline0/GstOMXH264Dec-omxh264dec:omxh264dec-omxh264dec0: Could not configure supporting library.
+Additional debug info:
+../git/omx/gstomxvideodec.c(3439): gst_omx_video_dec_handle_frame (): /GstPipeline:pipeline0/GstOMXH264Dec-omxh264dec:omxh264dec-omxh264dec0:
+Failed to relase input buffer to component: Invalid state (0x8000100a)
+ERROR: pipeline doesn't want to preroll.
+./S-PATH_TP.sh: line 5: /tmp/tmp.O0FU2u/: Is a directory
+
+Show 2 videos
+
+Free
+
+root@hihope-rzg2m:/MultiDisplay_01# free
+total used free shared buff/cache available
+Mem: 1914212 388052 1352844 22892 173316 1449700
+Swap: 0 0 0
+root@hihope-rzg2m:/MultiDisplay_01#
+
+root@smarc-rzv2l:~# free
+total used free shared buff/cache available
+Mem: 1337500 226476 1036084 9884 74940 1044312
+Swap: 0 0 0
+root@smarc-rzv2l:~#
+
+
+
+----------------------------------------------------------------------
+Dear Anh-san
+
+I'd like to report status. 
+
+*BenchMarkUSB3.0* 
+
+*G2M*
+!USB3.0_G2M.png!
+
+*V2L*
+!USB3.0_V2L.png!
+
+I used the same USB(Rz020) and TP on G2M, V2L. The result as above pictures. 
+--> Read and write speed on V2L is very low.
+
+*Multiple displayed_01:*
+1. Need to remove *qtdemux ! queue* in pipeline:
+2. I have check memory on G2M, V2L
+|Board|V2L|G2M|
+|free|226476|388052|
+
+I rerun the same MultiDisplay_01 on G2M, V2L:
+- G2M: Show 3 vides on monitor
+- V2L: Only show 2 videos on monitor.
+
+Solution:
+- Reduction size from 960X540 to 460X320 for 3 videos, But still show 2 video and warning *MMI ALLOC: Cannot allocate memory*
+--> I think V2L can not display 3 vides 1280x720.h264 at the same tim.
+
+Best regards,
+TuanTran
+
+------------------------------------------------------
+
+Update  IT   
+
+Serial K-BSP_007 : Remove PCL -> OK
+PWM: OK -> 
+ADC K-BSP_028 : Remove PCL -> OK
+RSPI K-BSP_029 : Remove PCL -> OK
+MMC: OK -> NG
+
+
+
+
+-------------------------------------------------------
+
+
 AM Bass 4231323 (3 time)
 DM Bass 3231 Re(0-4) Mi(2-4) Fa(3-4) La(2-3) Do(1-2)
 Si(0-2) G(3-26) La(2-3) Fa(3-4) Mi(2-4) C((45) 4 3)  

@@ -1,4 +1,11 @@
-1. Web crawling 
-2. Web scraping
-3. Data mining
+1. Web crawling, Web scraping, Data mining
+
+Language and library
+- Python
+- Selenium
+- Pandas
+- BeautifulSoup
+- Scrapy
+- SQL
+- HTML
 

@@ -6,8 +6,6 @@
 
 3. How to Send request to server?
 
-
-
 4. Method to controll web? Some the common web driver command?
 
 5. What is selenium?
@@ -131,4 +129,174 @@ Explain properly with code?
     - Search for information we want
     - Save information
     
+
+
+----------------------------------------------------------------------------------------------------------------
+Session
+
+    1. Simpile usage
+
+from selenium import webdriver 
+- Provide Webdriver as Firefox,...
+
+from selenium.webdriver.common.keys import Keys
+- Provide keys in the keyboard enter, return, F1,...
+
+driver = webdriver.Firefox()
+- Create instance
+
+    2. Navigating to page
+
+driver.get('url')
+
+- This method will navigate to a page given by URL
+- Need to ensure pages are fully loaded. Using 'waits'
+
+
+    3. Interacting with the page.
+
+        3.1 Find element within page
+Examlple:      
+<input type="text" name="passwd" id="passwd-id" />
+
+element = driver.find_element_by_id("passwd-id")
+element = driver.find_element_by_name("passwd")
+element = driver.find_element_by_xpath("//input[@id='passwd-id']")
+element = driver.find_element_by_css_selector("input#passwd-id")
+
+- If the's more than one element that matches query, only the first
+will be returned. 
+- If nothing can be found.  NoSuchElementException returned
+
+        3.2 Enter text into a textbox
+
+element.clear()
+element.send_keys("some text")
+    or
+element.send_keys(" and some", Keys.ARROW_DOWN)
+
+- Send keys and press arrow down
+
+        Validate some existing text 
+element.get_attribute("value")
+
+        - Fetch text already in a text box.
+
+        3.3 Check box
+element.click()
+
+        Validate check box is selected.
+element.is_selected()
+    or
+element.get_attribute("checked")
+
+- Checkbox is checked we would get a True value else we will get
+    False
+
+        How to deselect a checkbox only when it is selected
+element.click()
+
+        3.4 Radio button
+Similar Checkbox.
+element.click()
+
+        Validate radio button is selected.
+element.is_selected()
+    or
+element.get_attribute("checked")
+
+        How to deselect a radio button only when it is selected
+element.click()
+
+        3.5 Link
+element.click()
+
+        Validate link 
+element.get_attribute('href')
+
+        3.6 Dropdown
+
+Examlple:
+<td>
+    <select id="search_grade">
+        <option selected>(no value)</option>
+        <option value="K">K</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+</td>
+
+grade_dropdown = Select(driver.find_element_by_id("search_grade"))
+grade_dropdown.select_by_value("5")
+
+    We can deselect any selected value.
+grade_dropdown.deselect_by_value("5")
+
+        Validate dropdown 
+.all_selected_options 
+
+- Get the list of all the selected options.
+
+.first_selected_option
+
+- Rertun the first option that has been selected.
+
+.options
+
+- Get a list of all available options.
+
+        3.7 Button.
+element.click()
+
+        3.8 Element not interactable exception.
+- Example: We may not be able to click or send keys.
+    - Not visible/ not displayed
+    - off screen
+    - behind
+    - Some other action needs to be performed by the user first.
+
+            3.8.1 Wait until clickable
+1
+time.sleep()
+
+    Other way more efficient than.
+2
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+table = WebDriverWait(driver, seconds).until(EC.presence_of_element_located((By.ID, "resulttable")))
+
+3
+driver.implicitly_wait(seconds)
+
+            3.8.2 Scroll untill on-screen
+    
+- scroll to a certain height
+driver.execute_script("window.scrollTo(0, 5000)")
+
+- scroll to the bottom
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            --> Add into a DOM structure
+
+            3.8.3 Execute JavaScript
+-Example: error: 'element not interactable' Because form submission button is hidden.
+driver.execute_script(f'document.getElementById("search").click();')
+
+            3.8.4 Perform preliminary action.
+from selenium.webdriver.common.action_chains import ActionChains
+hov = ActionChains(driver).move_to_element(name_tag)
+hov.perform()
+    
+    4. Scrape data.
+        4.1 Scrape tables.
+        
+
+
+
+
+
 
