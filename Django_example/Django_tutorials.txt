@@ -1,0 +1,81 @@
+
+1. How the website works
+
+client -> requests -> server
+client <- respone <- server
+
+server -> HTML, DATA
+
+client:
+React, angular,vue
+
+server:
+django
+asp.net code
+
+
+2. Creating first project.
+
+django-admin
+
+django-admin startproject storefront
+    or
+django-admin startproject storefront . 
+
+
+django-admin runserver
+
+python manage.py
+
+python manage.py runserver
+
+3. Using the integrated terminal in vscode
+
+4. Crateting your first app
+
+python manage.py startapp playground
+
+5. Writing view
+
+def function in views
+
+6. Mapping URLs to view
+
+Creating URLs and mapping
+
+7. Using templates
+
+create html file,
+load in views
+
+8. Debugging 
+
+9. Building data model
+
+10. Data modeling.
+
+-------
+
+    Creating App.
+
+        python manage.py startapp polls
+
+    Creating model
+        python manage.py makemigrations -> History
+
+    Creating admin.
+        python manage.py createsuperuser
+
+
+    Templates. 
+
+    Query from data base.
+
+    <!-- <div class="noidung">
+        {% block content %}{% endbloack %}
+    </div> -->
+
+
+
+======================================
+Bai1: Urls, templates.

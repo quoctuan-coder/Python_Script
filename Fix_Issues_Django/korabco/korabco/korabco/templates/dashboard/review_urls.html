@@ -1,0 +1,195 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block head_title %}{{ block.super }} | ReviewUrls {% endblock head_title %}
+
+{% block extra-css %}
+    <style>
+    table tr:hover {
+        cursor: pointer;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content ">
+
+        <div class="bg-white">
+            <div class="container">
+                <ol class="breadcrumb breadcrumb-alt">
+                    <li class="breadcrumb-item"><a href="{{ SITE_URL }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">ReviewURLs</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include 'dashboard/includes/jumbotron.html' %}
+
+        <!-- START CONTAINER FLUID -->
+        <div class=" container-fixed-lg bg-white">
+            <div class="container">
+                <!-- START card -->
+                <div class="card card-transparent">
+                    <div class="card-header ">
+                        <div class="card-title">All Books with their ReviewUrls
+                        </div>
+                        <div class="pull-right">
+                            <div class="col-xs-12">
+                                <button id="allReviewsBtn" class="btn btn-outline-danger btn-cons">ALL</button>
+                                <button id="unvalidatedReviewsBtn" class="btn btn-outline-warning btn-cons">UNVALIDATED</button>
+                            </div>
+                        </div>
+                        <br><br><br>
+                        <div class="pull-right">
+                            <div class="col-xs-12">
+                              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="tableWithSearch">
+                                <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Code</th>
+                                    <th>ReviewUrl</th>
+                                    <th>ReviewDate</th>
+                                    <th>ReviewCheck</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for entry in queryset %}
+                                    <tr>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.user.email }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.book.code }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>
+                                                {% if entry.review_url %}
+                                                    <a href="{{ entry.review_url }}" target="_blank">{{ entry.review_url }}</a>
+                                                {% else %}
+                                                    --
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>{{ entry.review_date|default_if_none:"--" }}</p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                <span class="{% if entry.review_check %}bg-success-dark{% else %}bg-danger-dark{% endif %} text-white font-weight-bold px-2 py-2">
+                                                        {{ entry.review_check }}
+                                                </span>
+                                            </p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                {% if not entry.review_check %}
+                                                <a data-id="{{ entry.id }}" class="text-warning validate-review-url" href="#" data-placement="top" data-toggle="tooltip" data-original-title="Validate Review">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </a>&nbsp;
+                                                {% else %}
+                                                    <i class="fa fa-check text-success" data-placement="top" data-toggle="tooltip" data-original-title="Checked!"></i>
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END card -->
+            </div>
+
+        </div>
+        <!-- END CONTAINER FLUID -->
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+        $(document).ready(function () {
+
+            // Function reload page
+            function reloadPage(){
+                if (window.location.href.indexOf('?') > -1) {
+                    window.location.href = window.location.pathname;
+                }else{
+                    window.location.reload();
+                }
+            }
+
+            // Click button All ReviewURLs
+            $('#allReviewsBtn').click(function () {
+                reloadPage();
+            });
+
+            // Click button Unvalidated ReviewsURLs
+            $('#unvalidatedReviewsBtn').click(function () {
+                var currentLocation = String(window.location);
+                if (currentLocation.indexOf('?unvalidated=1') === -1) window.location.href = currentLocation + '?unvalidated=1';
+                else window.location.href = currentLocation
+            });
+
+            // Initialize datatable showing a search box at the top right corner
+            var initTableWithSearch = function() {
+                var table = $('#tableWithSearch');
+
+                var settings = {
+                    "sDom": "<t><'row'<p i>>",
+                    "destroy": true,
+                    "scrollCollapse": true,
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ ",
+                        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                    },
+                    "iDisplayLength": 5,
+                    "ordering": false
+                };
+
+                table.dataTable(settings);
+
+                // search box for table
+                $('#search-table').keyup(function() {
+                    table.fnFilter($(this).val());
+                });
+            }
+
+            initTableWithSearch();
+
+            // Validate ReviewURL click
+            $('.validate-review-url').click(function (e) {
+
+                e.preventDefault();
+                const bookId = $(this).data('id');
+                const url = "{% url 'dashboard:validate_review_book' 1 %}".replace(1, bookId);
+                var payload = {
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                };
+                $.post(url, payload).done(function (response) {
+                    if (response.success) {
+                        console.log("success : ", response);
+                        reloadPage();
+                    } else {
+                        console.log('error : ', response.error);
+                        reloadPage();
+                    }
+                }).fail(function (res) {
+                    console.log('error : ', res.error);
+                });
+
+            });
+        });
+    </script>
+
+{% endblock %}

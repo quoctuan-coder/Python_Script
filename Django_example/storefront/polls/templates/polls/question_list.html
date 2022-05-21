@@ -1,0 +1,14 @@
+{% extends 'polls/base.html' %}
+{% block content123 %}
+    {% if dsquest %}
+    {% for item in dsquest%} 
+
+        <a href="{% url  'detail' item.id  %}"><p>{{ item.question_text }}</p></a>
+
+    {% endfor %}
+
+    {% else %} 
+        <h3  style="color:red;"> Data is not exist </h3>
+    {% endif %}
+
+{% endblock %} 

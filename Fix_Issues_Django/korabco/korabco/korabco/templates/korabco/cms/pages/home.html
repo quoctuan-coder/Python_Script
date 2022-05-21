@@ -1,0 +1,261 @@
+{% extends "korabco/base.html" %}
+
+{% block head_title %}{{ block.super }} | Home {% endblock head_title %}
+
+{% block css %}
+<style>
+    #simple-reading {
+        background-image: url(/static/korabco/images/bg1.jpg)
+    }
+    #free-mp3 {
+        background-image: url(/static/korabco/images/bg2.jpg)
+    }
+    #free-membership {
+        background-image: url(/static/korabco/images/bg3.jpg)
+    }
+    #why-korabco {
+       background-image: url(/static/korabco/images/bg4.jpg)
+    }
+
+    @media (max-width: 767.98px) {
+        #simple-reading {
+            background-image: url(/static/korabco/images/mobile/bg1.jpg)
+        }
+        #free-mp3 {
+            background-image: url(/static/korabco/images/mobile/bg2.jpg)
+        }
+        #free-membership {
+            background-image: url(/static/korabco/images/mobile/bg3.jpg)
+        }
+        #why-korabco {
+           background-image: url(/static/korabco/images/mobile/bg4.jpg)
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+    <section id="simple-reading" class="middle skill-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 fadeInDown">
+                    <h1 class="animation animated-item-1">Simple Reading</h1>
+                </div>
+                <div class="col-md-4 col-md-offset-2 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-2">
+                        <h3 class="t-title">It's so easy</h3>
+                        <p>COMPREHENSIVE INPUT METHOD</p>
+                        <p>150 WORDS EACH LEVEL</p>
+                        <p>UNIQUE CLEAR LAYOUT</p>
+                        <p>BITE SIZED CHUNKS</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-1">
+                        <h3 class="t-title">+ MP3s</h3>
+                        <p>FREE MP3s FOR YOUR BOOKS</p>
+                        <hr>
+                        <h3 class="t-title">+ READERS APPS</h3>
+                        <p>ANDROID & IOS</p>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#simple reading secion-->
+
+    <section id="free-mp3" class="middle skill-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 fadeInDown">
+                    <h1 class="animation animated-item-1">Get your free mp3</h1>
+                </div>
+                <div class="col-md-4 col-md-offset-2 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-2">
+                        <h3 class="t-title">Book+mp3</h3>
+                        <p>EACH BOOK YOU PURCHASE</p>
+                        <p>ENABLES YOU TO DOWNLOAD</p>
+                        <p>OUR WONDERFUL MP3.</p>
+                        <p>NO FLUFF - NO FILLERS</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-1">
+                        <h3 class="t-title">+ MP3s</h3>
+                        <p>HEAR NATIVE PRONUNCIATION</p>
+                        <hr>
+                        <h3 class="t-title">+ READERS APPS</h3>
+                        <p>WILL SOON BE AVAILABLE!</p>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#free mp3 section-->
+
+    <section id="free-membership" class="middle skill-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 fadeInDown">
+                    <h1 class="animation animated-item-1">Free membership!</h1>
+                </div>
+                <div class="col-md-4 col-md-offset-2 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-2">
+                        <h3 class="t-title">Join now!</h3>
+                        <p>AMAZING APPS ARE COMING!</p>
+                        <p>GET MORE FREE STUFF!</p>
+                        <p>ANDROID AND IOS</p>
+                        <p>SIGN UP NOW!</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-1">
+                        <h3 class="t-title">+ MP3s</h3>
+                        <p>STRAIGHT - NO-NONSENSE MP3s.</p>
+                        <hr>
+                        <h3 class="t-title">+ READERS APPS</h3>
+                        <p>FREE SAMPLE DEMO APP NOW!</p>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#free membership secion-->
+
+    <section id="why-korabco" class="middle skill-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 fadeInDown">
+                    <h1 class="animation animated-item-1">Why <span style="color: #e93424 !important;">K</span>orabco ?</h1>
+                </div>
+                <div class="col-md-4 col-md-offset-2 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-2">
+                        <h3 class="t-title">Benefits:</h3>
+                        <p>SIMPLE, CLEAR, FOCUSED TEXT!</p>
+                        <p>SMALL CHUNKS - NO STRESS!</p>
+                        <p>COMPREHENSIVE INPUT METHOD</p>
+                        <p>SIGN UP NOW!</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-xs-landscape-6">
+                    <div class="animation animated-item-1">
+                        <h3 class="t-title">+ MP3s</h3>
+                        <p>SMALL PROGRESS STEPS</p>
+                        <hr>
+                        <h3 class="t-title">+ BOOKS $8.95!</h3>
+                        <p>AVAILABLE NOW AT AMAZON!</p>
+                        <p>FREE MP3s WITH BOOKS!</p>
+                    </div>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#why korabco section-->
+
+    <section id="feature">
+        <div class="container">
+            <div class="center fadeInDown">
+                <h2>Title</h2>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                    ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+            </div>
+
+            <div class="row">
+                <div class="features">
+                    <div class="col-md-3 col-sm-4 fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+                        <div class="feature-wrap">
+                            <h2>Sub Title</h2>
+                            <p>Alias aspernatur atque blanditiis cum distinctio, eaque.</p>
+                        </div>
+                    </div>
+                    <!--/.col-md-3-->
+                    <div class="col-md-3 col-sm-4 fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+                        <div class="feature-wrap">
+                            <h2>Sub Title</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        </div>
+                    </div>
+                    <!--/.col-md-3-->
+                    <div class="col-md-3 col-sm-4 fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+                        <div class="feature-wrap">
+                            <h2>Sub Title</h2>
+                            <p>Eum explicabo ipsam ipsum natus, numquam obcaecati possimus.</p>
+                        </div>
+                    </div>
+                    <!--/.col-md-3-->
+                    <div class="col-md-3 col-sm-4 fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+                        <div class="feature-wrap">
+                            <h2>Sub Title</h2>
+                            <p>Quaerat quam reprehenderit repudiandae sapiente soluta.</p>
+                        </div>
+                    </div>
+                    <!--/.col-md-3-->
+                </div>
+                <!--/.services-->
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#feature section-->
+
+    <section id="testimonial">
+        <div class="container">
+            <div class="center fadeInDown">
+                <h2>Title</h2>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                    ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
+            </div>
+            <div class="justify-content-center">
+                <h4>Sub Title</h4>
+                <p>
+                    Vestibulum sit amet tempus ligula. Nunc et imperdiet eros. Phasellus dapibus fringilla consequat. Mauris
+                    bibendum a sapien at sollicitudin. Donec volutpat aliquam felis id luctus. Duis quis faucibus mi. Duis
+                    nec metus fermentum, elementum nibh vestibulum, condimentum erat. Donec facilisis mi et tempor
+                    hendrerit. Aenean suscipit nulla tincidunt augue convallis, at tempus diam scelerisque. Quisque sit amet
+                    gravida orci, eu rhoncus dui. Pellentesque ut sagittis urna. Cras pellentesque sem eget lectus luctus,
+                    id rhoncus neque cursus. Mauris fermentum, ex ut iaculis blandit, diam augue porttitor nulla, quis
+                    laoreet urna elit in est. Morbi sed est sed purus feugiat cursus. Pellentesque metus nisl, posuere sed
+                    varius eu, dignissim et lacus.
+                    Praesent ut lorem ut lacus maximus euismod. Curabitur odio orci, laoreet non turpis in, ornare vulputate
+                    purus. Mauris suscipit, ipsum at efficitur volutpat, mauris orci ullamcorper tellus, id suscipit ante
+                    odio nec purus. Ut ut nunc hendrerit, aliquet quam ut, fringilla magna. Nam maximus mi pretium nisi
+                    bibendum, eu congue lectus ultrices. Etiam vel elit auctor nibh dignissim tempus. Maecenas orci magna,
+                    mattis sed justo dictum, vestibulum congue orci. Vestibulum in mollis ex. Vivamus faucibus fringilla leo
+                    non mollis. In volutpat velit dui, at viverra sapien sagittis quis. Vivamus et ligula ex. Cras elementum
+                    sodales nisi sit amet auctor. Nullam tempor dignissim sagittis.
+                </p>
+                <br>
+                <h4>Sub Title</h4>
+                <p>
+                    Vestibulum sit amet tempus ligula. Nunc et imperdiet eros. Phasellus dapibus fringilla consequat. Mauris
+                    bibendum a sapien at sollicitudin. Donec volutpat aliquam felis id luctus. Duis quis faucibus mi. Duis
+                    nec metus fermentum, elementum nibh vestibulum, condimentum erat. Donec facilisis mi et tempor
+                    hendrerit. Aenean suscipit nulla tincidunt augue convallis, at tempus diam scelerisque. Quisque sit amet
+                    gravida orci, eu rhoncus dui. Pellentesque ut sagittis urna. Cras pellentesque sem eget lectus luctus,
+                    id rhoncus neque cursus. Mauris fermentum, ex ut iaculis blandit, diam augue porttitor nulla, quis
+                    laoreet urna elit in est. Morbi sed est sed purus feugiat cursus. Pellentesque metus nisl, posuere sed
+                    varius eu, dignissim et lacus.
+                    Praesent ut lorem ut lacus maximus euismod. Curabitur odio orci, laoreet non turpis in, ornare vulputate
+                    purus. Mauris suscipit, ipsum at efficitur volutpat, mauris orci ullamcorper tellus, id suscipit ante
+                    odio nec purus. Ut ut nunc hendrerit, aliquet quam ut, fringilla magna. Nam maximus mi pretium nisi
+                    bibendum, eu congue lectus ultrices. Etiam vel elit auctor nibh dignissim tempus. Maecenas orci magna,
+                    mattis sed justo dictum, vestibulum congue orci. Vestibulum in mollis ex. Vivamus faucibus fringilla leo
+                    non mollis. In volutpat velit dui, at viverra sapien sagittis quis. Vivamus et ligula ex. Cras elementum
+                    sodales nisi sit amet auctor. Nullam tempor dignissim sagittis.
+                </p>
+            </div>
+        </div>
+    </section>
+    <!--/#testimonial section-->
+
+{% endblock content %}

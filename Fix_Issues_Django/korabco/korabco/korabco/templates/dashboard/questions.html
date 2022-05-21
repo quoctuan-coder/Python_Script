@@ -1,0 +1,408 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block head_title %}{{ block.super }} | Questions{% endblock head_title %}
+
+{% block extra-css %}
+    <style>
+    table tr:hover {
+        cursor: pointer;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content ">
+
+        <!-- MODAL Add New Question  -->
+        <div class="modal fade stick-up" id="addNewQuestionModal" tabindex="-1" role="dialog"
+             aria-labelledby="addNewQuestionModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5"><span class="semi-bold">New</span> Question</h4>
+                    </div>
+                    <form id="formAddQA" role="form" autocomplete="off">
+                        <div class="modal-body">
+                            <p class="small-text">Create a new question using this form, make sure you fill them all</p>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>question</label>
+                                        <input id="questionInput" type="text" name="question" class="form-control"
+                                               placeholder="Enter your question" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>answer</label>
+                                        <input id="answerInput" type="text" name="answer" class="form-control"
+                                               placeholder="Answer of your question" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="flashMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-cons">Add</button>
+                            <button type="button" class="btn btn-cons" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+         <!-- MODAL Edit Question  -->
+        <div class="modal fade stick-up" id="editQuestionModal" tabindex="-1" role="dialog"
+             aria-labelledby="editQuestionModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5"><span class="semi-bold">Edit</span> Question</h4>
+                    </div>
+                    <form id="formEditQA" role="form" autocomplete="off">
+                        <div class="modal-body">
+                            <p class="small-text">Edit your question using this form, make sure you fill them all</p>
+                            <input type="hidden" id="editQuestionIdInput">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>question</label>
+                                        <input id="editQuestionInput" type="text" name="editQuestion" class="form-control"
+                                               placeholder="Enter your question" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>answer</label>
+                                        <input id="editAnswerInput" type="text" name="editAnswer" class="form-control"
+                                               placeholder="Answer of your question" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="flashMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-cons">Save</button>
+                            <button type="button" class="btn btn-cons" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <!-- MODAL Confirm Delete Question -->
+        <div class="modal fade slide-up disable-scroll" id="deleteQuestionModal" tabindex="-1" role="dialog"
+             aria-hidden="false">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content-wrapper">
+                    <div class="modal-content">
+                        <div class="modal-body text-center m-t-20">
+                            <h4 class="no-margin p-b-10">Do you really wanna delete this question ?</h4>
+                            <button type="button" class="btn btn-danger btn-cons confirm-delete-question-btn m-t-10"
+                                    data-dismiss="modal">Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+        <!-- /.modal-dialog -->
+
+        <div class="bg-white">
+            <div class="container">
+                <ol class="breadcrumb breadcrumb-alt">
+                    <li class="breadcrumb-item"><a href="{{ SITE_URL }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Questions</li>
+                </ol>
+            </div>
+        </div>
+
+         {% include 'dashboard/includes/jumbotron.html' %}
+
+        <!-- START CONTAINER FLUID -->
+        <div class="container-fixed-lg bg-white">
+            <div class="container">
+                <!-- START card -->
+                <div class="card card-transparent">
+                    <div class="card-header ">
+                        <div class="card-title">Questions for book : <b>{{ book_code }}</b>
+                        </div>
+                        <div class="pull-right">
+                            <div class="col-xs-12">
+                                <button id="addQuestionBtn" class="btn btn-danger btn-cons"><i class="fa fa-plus"></i> Add Question
+                                </button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover demo-table-dynamic table-responsive-block" id="tableQuestions">
+
+                            <thead>
+                            <tr>
+                                <th style="width:45%">Question</th>
+                                <th style="width:40%">Answer</th>
+                                <th style="width:15%">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entry in questions %}
+                                <tr data-id="{{ entry.id }}" >
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.question }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.answer }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>
+                                            <a class="edit-question-icon" href="#" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+                                            <a class="delete-question-icon" href="#" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END card -->
+            </div>
+        </div>
+        <!-- END CONTAINER FLUID -->
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+        $(document).ready(function () {
+
+            // Global vars
+            var flashMsgElem = $('#flashMsg');
+
+            // Create dev flash Message
+            function flashMsgDiv(tag, message) {
+                return "<div class=\"alert alert-" + tag + " bordered\" role=\"alert\">\n" +
+                    "<p class=\"pull-left\">" + message + "</p>\n" +
+                    "<div class=\"clearfix\"></div>\n" +
+                    "</div>"
+            }
+
+            // Get and clear local storage item
+            function getStorageItem(item){
+                // Get it if item key found
+                if(localStorage.getItem(item)){
+                    $('.page-content-wrapper').pgNotification({
+                        style: 'bar',
+                        message: localStorage.getItem(item),
+                        position: 'top',
+                        timeout: 0,
+                        type: 'success'
+                    }).show();
+                    localStorage.clear();
+                }
+            }
+
+            var clickEditQuestion = function () {
+                // Click edit question icon
+                $('.edit-question-icon').click(function (e) {
+                    e.preventDefault();
+
+                    // prefill form edit question
+                    var currentRow = $(this).closest('tr');
+                    const questionId = currentRow.data('id');
+                    $('#editQuestionIdInput').val(questionId);
+                    var question = currentRow.find("td:eq(0)").text();
+                    question = $.trim(question);
+                    $('#editQuestionInput').val(question);
+                    var answer = currentRow.find("td:eq(1)").text();
+                    answer = $.trim(answer);
+                    $('#editAnswerInput').val(answer);
+
+                    // Show Modal
+                    $('#editQuestionModal').modal('show');
+                });
+            }
+
+            var clickDeleteQuestion = function () {
+                // Click delete question icon
+                $('.delete-question-icon').click(function (e) {
+                    e.preventDefault();
+                    var currentRow = $(this).closest('tr');
+                    const questionId = currentRow.data('id');
+
+                    // Show Modal Confirmation Delete
+                    $('#deleteQuestionModal').modal('show');
+
+                    // Delete question
+                    $('.confirm-delete-question-btn').click(function (e) {
+                        const url = "{% url 'dashboard:delete_question' 1 %}".replace(1, questionId);
+                        $.get(url).done(function (response) {
+                            if (response.success) {
+                                localStorage.setItem("DeleteQA", response.message);
+                                location.reload();
+                            } else {
+                                flashMsgElem.html(flashMsgDiv('danger', response.message));
+                            }
+                        }).fail(function (res) {
+                            flashMsgElem.html(flashMsgDiv('danger', res.message));
+                        })
+                    });
+                });
+
+                // Get & Clear local storage DeleteQA
+                getStorageItem("DeleteQA");
+            }
+
+            // Initialize datatable with ability to add rows dynamically
+            var initTableQuestions = function () {
+
+                var table = $('#tableQuestions');
+
+                var settings = {
+                    "sDom": "<t><'row'<p i>>",
+                    "destroy": true,
+                    "scrollCollapse": true,
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ ",
+                        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                    },
+                    "iDisplayLength": 5,
+                    "ordering": false,
+                    "drawCallback": function( settings ) {
+                        clickEditQuestion();
+                        clickDeleteQuestion();
+                    }
+                };
+
+                table.dataTable(settings);
+
+                // Add new question through modal
+                $('#addQuestionBtn').click(function () {
+                    $('#addNewQuestionModal').modal('show');
+                });
+            }
+
+            // Datatable
+            initTableQuestions();
+
+            // Submit new question
+            $('#formAddQA').validate({
+                ignore: [],
+                 rules: {
+                    question: {
+                        required: true,
+                        maxlength: 255
+                    },
+                    answer: {
+                        required: true,
+                        maxlength: 255
+                    },
+                },
+                onfocusout: function(element) {
+                    $(element).valid();
+                },
+                submitHandler: function(form) {
+                    var pathname = window.location.pathname;
+                    pathname = pathname.split('/');
+                    const book_id = pathname[4];
+                    const url = "{% url 'dashboard:create_question' 1 %}".replace(1, book_id);
+                    const question = $("#questionInput").val();
+                    const answer = $("#answerInput").val();
+                    var payload = {
+                        'csrfmiddlewaretoken': "{{ csrf_token }}",
+                        'question': question,
+                        'answer': answer,
+                    };
+                    $.post(url, payload).done(function (response) {
+                        if (response.success) {
+                            localStorage.setItem("AddQA", response.message);
+                            location.reload();
+                        } else {
+                            flashMsgElem.html(flashMsgDiv('danger', response.message));
+                        }
+                    }).fail(function (res) {
+                        flashMsgElem.html(flashMsgDiv('danger', res.message));
+                    });
+
+                    return false;
+                },
+            });
+
+            // Get & Clear local storage AddQA
+            getStorageItem("AddQA");
+
+            // Submit edit question
+            $('#formEditQA').validate({
+                ignore: [],
+                 rules: {
+                    editQuestion: {
+                        required: true,
+                        maxlength: 255
+                    },
+                    editAnswer: {
+                        required: true,
+                        maxlength: 255
+                    },
+                },
+                onfocusout: function(element) {
+                    $(element).valid();
+                },
+                submitHandler: function(form) {
+                    const questionId = $('#editQuestionIdInput').val();
+                    const question = $('#editQuestionInput').val();
+                    const answer = $('#editAnswerInput').val();
+                    const url = "{% url 'dashboard:update_question' 1 %}".replace(1, questionId);
+                    var payload = {
+                        'csrfmiddlewaretoken': "{{ csrf_token }}",
+                        'question': question,
+                        'answer': answer,
+                    };
+                    $.post(url, payload).done(function (response) {
+                        if (response.success) {
+                            localStorage.setItem("EditQA", response.message);
+                            location.reload();
+                        } else {
+                            flashMsgElem.html(flashMsgDiv('danger', response.message));
+                        }
+                    }).fail(function (res) {
+                        flashMsgElem.html(flashMsgDiv('danger', res.message));
+                    });
+
+                    return false;
+                },
+            });
+
+            // Get & Clear local storage EditQA
+            getStorageItem("EditQA");
+
+        });
+    </script>
+
+{% endblock %}

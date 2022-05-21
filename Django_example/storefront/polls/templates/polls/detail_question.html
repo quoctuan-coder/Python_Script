@@ -1,0 +1,21 @@
+{% extends 'polls/base.html' %}
+{% block content123 %}
+
+    <form action="{% url 'vote' qs.id %}" method="post">
+    {% csrf_token %}
+
+    {% if qs %}
+    <h1> {{ qs.question_text }} </h1>
+    {% for item in qs.choice_set.all %} 
+        <p><input type ="radio" name = 'choice' value="{{ item.id }}"> {{ item.choice }} </p>
+    {% endfor %}
+
+    {% else %} 
+        <h3  style="color:red;"> Data is not exist </h3>
+    {% endif %}
+        
+        <p><input type="submit" value="gui"</p>
+
+    </form>
+
+{% endblock %} 

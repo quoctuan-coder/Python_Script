@@ -1,0 +1,43 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+
+{% block head_title %}Account |{% endblock %}
+
+{% block content %}
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="wrapper">
+                        <div id="logo-login" class="text-center">
+                            <img src="{% static 'korabco/images/logo.png' %}" alt="logo" style="width: 150px;">
+                        </div>
+                        <div class="contact-wrap w-100 p-md-5 p-4">
+                            <p>Please confirm your email address to complete the registration. We have sent you an email to confirm your email address.</p>
+                            <br>
+                            <p>Please check your inbox and spam folder.</p>
+                            <div class="text-center p-t-90">
+                                <a class="txt1" href="{{ SITE_URL }}">Home</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block css %}
+    <style>
+        #logo-login {
+            padding: 20px;
+        }
+        p {
+            color: #fff;
+            font-size: 20px;
+        }
+        body {
+            background: #000;
+        }
+    </style>
+{% endblock css %}

@@ -1,4 +1,5 @@
 import time
+import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
@@ -26,5 +27,18 @@ time.sleep(3)
 # Get date and specific result
 
 page_source = BeautifulSoup(driver.page_source, 'html.parser')
-print(page_source)
 
+Result_outs = page_source.find_all('div',class_="font-weight-bold text-danger col-12 d-block p-1 m-0")
+dates = page_source.find_all('span',class_ = "d-none d-lg-inline")
+
+
+for result in Result_outs:
+    tmp = result.text
+    print(tmp)
+
+for d in dates:
+    tmp = d.
+    print(tmp)
+#Date = driver.find_elements_by_xpath('//*[@id="skq"]/div/div[3]/div[1]/table/thead/tr/th/span[2]')
+
+#<div l="5" class="font-weight-bold text-danger col-12 d-block p-1 m-0">51139</div>

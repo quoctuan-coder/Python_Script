@@ -1,0 +1,221 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block head_title %}{{ block.super }} | Reports {% endblock head_title %}
+
+{% block extra-css %}
+    <link href=" https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet">
+    <style>
+    table tr:hover {
+        cursor: pointer;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content ">
+
+        <div class="bg-white">
+            <div class="container">
+                <ol class="breadcrumb breadcrumb-alt">
+                    <li class="breadcrumb-item"><a href="{{ SITE_URL }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Reports</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include 'dashboard/includes/jumbotron.html' %}
+
+        <!-- START CONTAINER FLUID -->
+        <div class="container-fixed-lg bg-white">
+            <div class="container">
+                <!-- START card -->
+                <div class="card card-transparent">
+                    <div class="card-header ">
+                        <div class="card-title">Report of {{ model_name }}s
+                        </div>
+                        {% if 'review-url/reports' in request.path_info %}
+                            <div class="pull-right">
+                                <div class="col-xs-12">
+                                    <button id="allReviewsBtn" class="btn btn-outline-danger btn-cons">ALL</button>
+                                    <button id="unvalidatedReviewsBtn" class="btn btn-outline-warning btn-cons">UNVALIDATED</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <br><br>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table table-hover demo-table-dynamic table-responsive-block" id="tableWithExportOptions">
+
+                            <thead>
+                                {% if 'book/reports' in request.path_info %}
+                                    <tr>
+                                        <th style="width: 10%">Code</th>
+                                        <th style="width: 20%">Title</th>
+                                        <th>App URL</th>
+                                        <th>Date create</th>
+                                        <th>Date update</th>
+                                    </tr>
+                                {% elif 'question/reports' in request.path_info %}
+                                    <tr>
+                                        <th style="width: 15%">Book Code</th>
+                                        <th style="width: 20%">Book Title</th>
+                                        <th>Question</th>
+                                        <th>Answer</th>
+                                    </tr>
+                                {% elif 'review-url/reports' in request.path_info %}
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Code</th>
+                                        <th>ReviewUrl</th>
+                                        <th>ReviewDate</th>
+                                        <th>ReviewCheck</th>
+                                    </tr>
+                                {% endif %}
+                            </thead>
+                            <tbody>
+                            {% for book in books %}
+                                <tr data-id="{{ book.id }}" >
+                                    <td class="v-align-middle">
+                                        <p>{{ book.code }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ book.title }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>
+                                            {% if book.app_url %}
+                                                <a href="{{ book.app_url }}" target="_blank">{{ book.app_url }}</a>
+                                            {% else %}
+                                                --
+                                            {% endif %}
+                                        </p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ book.created_at }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ book.updated_at }}</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% for entry in review_urls %}
+                                    <tr>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.user.email }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.book.code }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>
+                                                {% if entry.review_url %}
+                                                    <a href="{{ entry.review_url }}" target="_blank">{{ entry.review_url }}</a>
+                                                {% else %}
+                                                    --
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>{{ entry.review_date|default_if_none:"--" }}</p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                <span class="{% if entry.review_check %}bg-success-dark{% else %}bg-danger-dark{% endif %} text-white font-weight-bold px-2 py-2">
+                                                    {{ entry.review_check }}</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% for entry in questions %}
+                                <tr>
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.book.code }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.book.title }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.question }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ entry.answer }}</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END card -->
+            </div>
+        </div>
+        <!-- END CONTAINER FLUID -->
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script src=" https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" ></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js" ></script>
+    <script>
+        $(document).ready(function () {
+
+            // Function reload page
+            function reloadPage(){
+                if (window.location.href.indexOf('?') > -1) {
+                    window.location.href = window.location.pathname;
+                }else{
+                    window.location.reload();
+                }
+            }
+
+            // Click button All ReviewURLs
+            $('#allReviewsBtn').click(function () {
+                reloadPage();
+            });
+
+            // Click button Unvalidated ReviewsURLs
+            $('#unvalidatedReviewsBtn').click(function () {
+                var currentLocation = String(window.location);
+                if (currentLocation.indexOf('?unvalidated=1') === -1) window.location.href = currentLocation + '?unvalidated=1';
+                else window.location.href = currentLocation
+            });
+
+            // Initialize datatable showing a search box at the top right corner
+            var initTableWithExportOptions = function() {
+                var table = $('#tableWithExportOptions');
+
+                var settings = {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ],
+                    "destroy": true,
+                    "scrollCollapse": true,
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ ",
+                        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                    },
+                    "iDisplayLength": 5
+                };
+
+                table.dataTable(settings);
+
+            }
+
+            initTableWithExportOptions();
+
+        });
+    </script>
+
+{% endblock %}

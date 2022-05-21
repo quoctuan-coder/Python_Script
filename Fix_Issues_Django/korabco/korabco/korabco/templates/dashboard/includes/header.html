@@ -1,0 +1,40 @@
+{% load static %}
+
+<!-- Start Header Top Area -->
+<div class="header-inner header-md-height">
+    <a href="#" class="btn-link toggle-sidebar d-lg-none pg pg-menu text-white" data-toggle="horizontal-menu"></a>
+    <div class="">
+        <div class="brand inline no-border d-sm-inline-block">
+            <a href="{{ SITE_URL }}">
+                <img src="{% static 'dashboard/img/logo_white.png' %}" alt="logo"
+                     data-src="{% static 'dashboard/img/logo_white.png' %}"
+                     data-src-retina="{% static 'dashboard/img/logo_white_2x.png' %}" width="78" height="22">
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center">
+        <!-- START User Info-->
+        <div class="pull-left p-r-10 fs-16 font-heading d-lg-inline-block d-none text-white">
+            <span class="semi-bold">{{ request.user.first_name|title }}</span> <span class="">{{ request.user.last_name|title }}</span>
+        </div>
+        <div class="dropdown pull-right">
+            <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+              <span class="thumbnail-wrapper d32 circular inline sm-m-r-5">
+                <img src="{{ user.profile.avatar.url }}" class="img-fluid"
+                     data-src="{{ user.profile.avatar.url }}"
+                     data-src-retina="{{ user.profile.avatar.url }}" width="32" height="32">
+                </span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
+                <a href="{% url 'account:profile_update' %}" class="dropdown-item"><i class="pg-settings_small"></i> Profile</a>
+                <a href="{% url 'account:logout' %}" class="clearfix bg-master-lighter dropdown-item">
+                    <span class="pull-left">Logout</span>
+                    <span class="pull-right"><i class="pg-power"></i></span>
+                </a>
+            </div>
+        </div>
+        <!-- END User Info-->
+    </div>
+</div>
+<!-- End Header Top Area -->

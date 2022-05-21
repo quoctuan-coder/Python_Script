@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block head_title %}{% endblock head_title %} Korabco </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'images/favicon/safari-pinned-tab.svg" color="#5bbad5' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'account/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'account/css/main.css' %}">
+<!--===============================================================================================-->
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        section {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    {% block css %}{% endblock css %}
+</head>
+<body>
+
+    <!-- Messages -->
+    {% block messages %}
+    {% if messages %}
+    <div id="custom-alerto">
+		{% for message in messages %}
+		<div class="text-center alert alert-dismissible fade show
+							{% if message.level_tag == 'error' %}
+						   alert-danger
+						   {% else %}
+						   alert-{{ message.tags }}
+						   {% endif %}">
+			{{ message }}
+			<!--<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>-->
+		</div>
+		{% endfor %}
+    </div>
+    {% endif %}
+    {% endblock messages %}
+
+    {% block content %}{% endblock content %}
+
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'account/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'account/js/main.js' %}"></script>
+
+    {% block js %}{% endblock js %}
+</body>
+</html>

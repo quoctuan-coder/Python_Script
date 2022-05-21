@@ -1,0 +1,489 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block head_title %}{{ block.super }} | Korabco {% endblock head_title %}
+
+{% block content %}
+    <div class="content ">
+
+        <!-- MODAL Proof New Book -->
+        <div class="modal fade stick-up" id="proofBookModal" tabindex="-1" role="dialog"
+             aria-labelledby="proofBookModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5"><span class="semi-bold">Add New</span> Book</h4>
+                    </div>
+                    <form id="formProofBook" role="form" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p class="small-text">Add a new book to the list of your books by answering a question.</p>
+                            <input id="questionBookId" type="hidden">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default form-group-default-select2 required">
+                                        <label class="">Book</label>
+                                        <select id="bookSelect" name="bookSelect" title="Please select a book" class="select2 full-width" data-init-plugin="select2">
+                                            <option></option>
+                                            {% for book in books %}
+                                                <option value="{{ book.id }}">{{ book.code }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row hidden" id="questionBookWrraper">
+                                <div class="col-sm-12">
+                                    <br>
+                                    <div class="padding-20 bg-master-light">
+                                        <p id="questionBook" class="hint-text pull-left no-margin"></p>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="form-group form-group-default required">
+                                        <label>Answer</label>
+                                        <input id="bookAnswerInput" name="bookAnswer" type="text" class="form-control"
+                                               placeholder="Answer the question above">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <br>
+                                    <div id="flashMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-cons">Add</button>
+                            <button type="button" class="btn btn-cons" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div class="bg-white">
+            <div class="container">
+                <ol class="breadcrumb breadcrumb-alt">
+                    <li class="breadcrumb-item"><a href="{{ SITE_URL }}">Home</a></li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include 'dashboard/includes/jumbotron.html' %}
+
+        <!-- START CONTAINER FLUID -->
+        <div class=" no-padding    container-fixed-lg bg-white">
+            <div class="container">
+                <!-- START card -->
+                <div class="card card-transparent">
+                    <div class="card-header ">
+                        <div class="card-title">
+                            {% if request.user.is_superuser %}
+                                All Books
+                            {% else %}
+                                My Books
+                            {% endif %}
+                        </div>
+                        {% if request.user.is_superuser %}
+                        <div class="pull-right">
+                            <div class="col-xs-12">
+                              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="pull-right">
+                            <div class="col-xs-12">
+                                <button id="proofBookBtn" class="btn btn-danger btn-cons"><i class="fa fa-plus"></i> Add Book
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="card-body">
+                        {% if request.user.is_superuser %}
+                            <div class="table-responsive">
+                            <table class="table table-hover" id="tableWithSearch">
+                                <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Code</th>
+                                    <th>ReviewUrl</th>
+                                    <th>ReviewDate</th>
+                                    <th>ReviewCheck</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for entry in queryset %}
+                                    <tr>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.user.email }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.book.code }}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>
+                                                {% if entry.review_url %}
+                                                    <a href="{{ entry.review_url }}" target="_blank">{{ entry.review_url }}</a>
+                                                {% else %}
+                                                    --
+                                                {% endif %}
+                                            </p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>{{ entry.review_date|default_if_none:"--" }}</p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                <span class="{% if entry.review_check %}bg-success-dark{% else %}bg-danger-dark{% endif %} text-white font-weight-bold px-2 py-2">
+                                                    {{ entry.review_check }}</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="basicTable">
+                                <thead>
+                                <tr>
+                                    <!-- NOTE * : Inline Style Width For Table Cell is Required as it may differ from user to user Comman Practice Followed -->
+                                    <th style="width:25%">Code</th>
+                                    <th style="width:25%">Title</th>
+                                    <th style="width:25%">MP3</th>
+                                    <th style="width:25%">App</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for entry in queryset %}
+                                    <tr>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.book.code}}</p>
+                                        </td>
+                                        <td class="v-align-middle ">
+                                            <p>{{ entry.book.title}}</p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                <button data-url="{{ entry.book.mp3_file.url }}" class="btn btn-success btn-cons download-mp3">
+                                                    Download
+                                                </button>
+                                            </p>
+                                        </td>
+                                        <td class="v-align-middle">
+                                            <p>
+                                                <button data-id="{{ entry.id }}" class="btn btn-default btn-cons app-download">
+                                                    Download
+                                                </button>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <br><br>
+                        <div id="review_book" class="row hidden">
+                            <div class="col-lg-8 col-lg-offset-3">
+                                <div class="sm-m-l-5 sm-m-r-5">
+                                    <div class="card-group horizontal" id="accordion" role="tablist"
+                                         aria-multiselectable="true">
+                                        <div class="card card-default m-b-0">
+                                            <div class="card-header " role="tab" id="headingOne">
+                                                <h4 class="card-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapseOne" aria-expanded="true"
+                                                       aria-controls="collapseOne">
+                                                        Amazon Review Book
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" role="tabcard"
+                                                 aria-labelledby="headingOne">
+                                                <div id="body_review_book_submit" class="card-body">
+                                                    <span id="current_mybook" class="hidden"></span>
+                                                    <p>
+                                                        Please copy/paste (below) the link to your Amazon Review of this book : <b id="book_code"></b>
+                                                        <br>Enter Your Review Link : <br>
+                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <input id="review_url" type="text" class="form-control" placeholder="Amazon URL Review">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <button id="submit-review" type="button" class="btn btn-danger btn-cons">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                 <div id="body_review_book_error" class="card-body hidden">
+                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- END card -->
+            </div>
+        </div>
+        <!-- END CONTAINER FLUID -->
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+    $(document).ready(function () {
+
+            // Do this before you initialize any of your modals
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
+            // Global vars
+            var flashMsgElem = $('#flashMsg');
+
+            // Create dev flash Message
+            function flashMsgDiv(tag, message) {
+                return "<div class=\"alert alert-" + tag + " bordered\" role=\"alert\">\n" +
+                    "<p class=\"pull-left\">" + message + "</p>\n" +
+                    "<div class=\"clearfix\"></div>\n" +
+                    "</div>"
+            }
+
+            //
+            $("#bookSelect").select2({
+                placeholder: "Select a state"
+            });
+
+            // Initialize a basic dataTable with row selection option
+            var initBasicTable = function() {
+
+                var table = $('#basicTable');
+
+                var settings = {
+                    "sDom": "t",
+                    "destroy": true,
+                    "paging": false,
+                    "scrollCollapse": true,
+                    "aoColumnDefs": [{
+                        'bSortable': false,
+                        'aTargets': [0]
+                    }],
+                    "order": [
+                        [1, "desc"]
+                    ]
+
+                };
+
+                table.dataTable(settings);
+
+                $('#basicTable input[type=checkbox]').click(function() {
+                    if ($(this).is(':checked')) {
+                        $(this).closest('tr').addClass('selected');
+                    } else {
+                        $(this).closest('tr').removeClass('selected');
+                    }
+
+                });
+
+            }
+
+            initBasicTable();
+
+            // Initialize datatable showing a search box at the top right corner
+            var initTableWithSearch = function() {
+                var table = $('#tableWithSearch');
+
+                var settings = {
+                    "sDom": "<t><'row'<p i>>",
+                    "destroy": true,
+                    "scrollCollapse": true,
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ ",
+                        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                    },
+                    "iDisplayLength": 5,
+                    "ordering": false
+                };
+
+                table.dataTable(settings);
+
+                // search box for table
+                $('#search-table').keyup(function() {
+                    table.fnFilter($(this).val());
+                });
+            }
+
+            // App download click
+            $('.app-download').click(function () {
+                $('#body_review_book_submit').removeClass('hidden');
+                $('#body_review_book_error').addClass('hidden');
+                const myBookId = $(this).data('id');
+                const url = "{% url 'dashboard:check_review_book' 1 %}".replace(1, myBookId);
+                var payload = {
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                };
+                $.post(url, payload).done(function (response) {
+                    if (response.success) {
+                        console.log("success : ", response);
+                        if(response.book_code) {
+                            $('#book_code').text(response.book_code);
+                            $('#current_mybook').text(myBookId);
+                            $('#review_book').removeClass('hidden');
+                        }else if(response.redirect_app === 1){
+                            window.open(response.app_url, '_blank');
+                            window.location.reload();
+                        }else{
+                            window.location.reload();
+                        }
+                    }else {
+                        console.log('error : ', response.error);
+                    }
+                }).fail(function (res) {
+                    console.log('error : ', res.error);
+                })
+            });
+
+            // Submit review click
+            $('#submit-review').click(function () {
+                const myBookId = $('#current_mybook').text();
+                const bookReviewURL = $('#review_url').val();
+                const url = "{% url 'dashboard:submit_review_book' 1 %}".replace(1, myBookId);
+                var payload = {
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                    'review_url': bookReviewURL,
+                };
+                $.post(url, payload).done(function (response) {
+                    $('#review_url').val('');
+                    if (response.success) {
+                        console.log("success : ", response);
+                        window.location.reload();
+                    } else {
+                        console.log('error : ', response.error);
+                        $('#body_review_book_submit').addClass('hidden');
+                        $('#body_review_book_error').removeClass('hidden').empty().append('<p class="text-danger">'+ response.error +'</p>');
+
+                    }
+                }).fail(function (res) {
+                    console.log('error : ', res.error);
+                })
+            });
+
+            // Download file
+            function downloadFile(url) {
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = url.split('/').pop();
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
+
+            // click donwload MP3 file
+            $('.download-mp3').click(function (e) {
+                const url = $(this).data('url')
+                downloadFile(url);
+            });
+
+            // Proof book ownership through modal
+            $('#proofBookBtn').click(function () {
+                $('#proofBookModal').modal('show');
+            });
+
+
+            $('#bookSelect').select2({
+                placeholder: "Please select a book",
+                dropdownParent: $("#proofBookModal")
+            });
+
+            // Proof book select change
+            $('#bookSelect').on('select2:select', function (e) {
+                var data = e.params.data;
+                const bookId = data.id;
+                const url = "{% url 'dashboard:book_get_questions' 1 %}".replace(1, bookId);
+                $.get(url).done(function (response) {
+                    if (response.success) {
+                        flashMsgElem.hide();
+                        $('#questionBookWrraper').removeClass('hidden');
+                        const data = response.data;
+                        $("#questionBookId").val(data.id);
+                        $('#questionBook').text(data.question);
+                    } else {
+                        $('#questionBookWrraper').addClass('hidden');
+                        $("#questionBookId").val('');
+                        flashMsgElem.html(flashMsgDiv('danger', response.message));
+                        flashMsgElem.show();
+                    }
+                }).fail(function (res) {
+                    $('#questionBookWrraper').addClass('hidden');
+                    flashMsgElem.html(flashMsgDiv('danger', res.message));
+                    flashMsgElem.show();
+                });
+            });
+
+            // Submit proof ownership by answearing question book
+            $('#formProofBook').validate({
+                ignore: [],
+                 rules: {
+                    bookSelect: {
+                        required: true,
+                    }
+                },
+                messages: {
+                    bookSelect: {
+                      required: "Please choose a book",
+                    },
+                },
+                onfocusout: function(element) {
+                    $(element).valid();
+                },
+                submitHandler: function(form) {
+                    const questionBookId = $('#questionBookId').val();
+                    if ($.isNumeric(questionBookId)) {
+                        const url = "{% url 'dashboard:proof_book' 1 %}".replace(1, questionBookId);
+                        var payload = {
+                            'csrfmiddlewaretoken': "{{ csrf_token }}",
+                            'answer': $("#bookAnswerInput").val()
+                        };
+                        $.post(url, payload).done(function (response) {
+                            if (response.success) {
+                                flashMsgElem.hide();
+                                window.location.reload();
+                            } else {
+                                flashMsgElem.show();
+                                flashMsgElem.html(flashMsgDiv('danger', response.message));
+                            }
+                        }).fail(function (res) {
+                            flashMsgElem.show();
+                            flashMsgElem.html(flashMsgDiv('danger', res.message));
+                        });
+                    }else{
+                        flashMsgElem.show();
+                        flashMsgElem.html(flashMsgDiv('danger', 'Error while getting the questions of this book'));
+                    }
+
+                    return false;
+                },
+            });
+
+            {% if request.user.is_superuser %}
+                initTableWithSearch();
+            {% endif %}
+        });
+    </script>
+
+{% endblock %}

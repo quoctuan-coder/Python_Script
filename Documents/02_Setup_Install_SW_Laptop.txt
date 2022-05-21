@@ -1,0 +1,246 @@
+
+-------------------------------------------------------------
+|Setup on windows.                                          |
+|                                                           |
+-------------------------------------------------------------
+
+1. Setup VNP, Login B2B
+
+C:\Program Files (x86)\Sophos\Sophos SSL VPN Client\config
+
+auto connect VPN
+    create file 
+        userpassword.txt 
+        store user, password
+
+    add into file config
+        auth-user-pass userpassword.txt
+
+How to install smxlogin (Run OK with python 3.9)
+    pip install git+https://github.com/dlenski/smxlogin
+
+Setup password as link: https://github.com/dlenski/smxlogin
+
+Execute login.bat.
+
+---------------------------------------------------------
+
+2. Setup python, Environment
+Install python 3.9
+
+    pip install virtualenv
+
+
+-------------------------------------------------------------
+|Setup on Linux Ubunt16                                     |
+|                                                           |
+-------------------------------------------------------------
+
+1. Setup share folder windows and VirtualBox.
+    - Link forlder share
+    - Enable File Sharing
+        sudo gpasswd -a rvc vboxsf
+
+    - Link folder in unbuntu
+        ln -s <real folder> <link folder>
+
+2. Install tftp.
+
+3. Install VSCOde
+
+sudo apt install snapd
+sudo snap install code --classic
+
+4. Install Python on Ubunt16.
+Ubunt16.04 support python 2.7 and python3.5
+
+    pip
+
+cd ~
+wget https://bootstrap.pypa.io/get-pip.py  
+
+(Using wget https://bootstrap.pypa.io/pip/2.7/get-pip.py) for python2
+
+sudo python get-pip.py
+
+    virtualenv
+
+sudo pip install virtualenv virtualenvwrapper
+sudo rm -rf ~/get-pip.py ~/.cache/pip
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+echo -e "\n# virtualenv and virtualenvwrapper" >> ~/.bashrc
+echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+
+source ~/.bashrc
+
+mkvirtualenv env -p python2
+mkvirtualenv env -p python3
+
+workon cv
+
+    How to update python 3.9 on Ubunt16.
+
+5. Install Mysql on Ubunt16
+
+        Install.
+    sudo apt-get update
+    sudo apt-get install mysql-server
+
+        Configuration.
+    mysql_secure_installation
+
+        Test Mysql
+    systemctl status mysql.service
+
+6. Install library xlsx2csv.
+
+    Lib in folder. D:\shared\Documents\script.
+        Check path: home/rvc/desktop/script/perl_tool
+        cd /x86_lib64
+        Run cmd (3 times)
+
+-------------------------------------------
+
+-------------------------------------------------------------
+|Setup on Linux Ubunt20                                     |
+|                                                           |
+-------------------------------------------------------------
+
+1. Install Mysql on Ubunt20
+
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+
+Update python3.9
+
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.9
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 2
+
+----------------------
+sudo apt remove python3-apt
+sudo apt install python3-apt
+
+    Fix no distutils module.
+sudo apt-get install python3-distutils
+sudo apt-get install python3-apt
+
+    if already install need to rerun
+sudo apt-get install --reinstall package-name
+
+------------------------
+
+    pip
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3 get-pip.py
+
+    virtualenv
+pip3 install virtualenv virtualenvwrapper
+nano ~/.bashrc
+
+        And insert the following lines at the end of the file
+export WORKON_HOME=$HOME/.local/bin/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=$HOME/.local/bin/virtualenv
+source $HOME/.local/bin/virtualenvwrapper.sh
+
+source ~/.bashrc
+
+mkvirtualenv env -p python3
+
+workon
+
+
+https://www.linuxcapable.com/how-to-setup-python-3-virtual-environment-on-ubuntu-20-04/
+
+
+Issues. install mysql
+
+mysql_config not found
+sudo apt-get install libmysqlclient-dev
+
+error: command 'x86_64-linux-gnu-gcc' failed: No such file or directory
+sudo apt-get install python3 python-dev python3-dev \
+     build-essential libssl-dev libffi-dev \
+     libxml2-dev libxslt1-dev zlib1g-dev \
+     python3-pip
+
+
+------------------------------------------------
+MYSQL----- Ubuntu 20
+------------------------------------------------
+Remove
+sudo apt remove --purge mysql-server
+sudo apt purge mysql-server
+sudo apt autoremove
+sudo apt autoclean
+sudo apt remove dbconfig-mysql
+
+
+    sudo apt install mysql-server
+    sudo mysql_secure_installation
+
+    sudo mysql
+
+mysql session to run ALTER USER
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'my-secret-password';
+    exit;
+
+Create user:
+    create user 'senthil'@'localhost' identified by 'password';
+
+To show Password Validation Plugin system variables:
+    SHOW VARIABLES LIKE 'validate_password%';
+
+To revert back to MEDIUM level policy:
+    SET GLOBAL validate_password.policy=MEDIUM; 
+    or 
+    SET GLOBAL validate_password.policy=LOW;
+
+Restart mysql:
+    sudo systemctl restart mysql
+
+Stop:
+    sudo service mysql stop
+
+Start:
+    sudo service mysql start
+
+Check status:
+    sudo service mysql status
+
+
+forgot password root:
+
+Start MySQL without a password
+sudo mysqld_safe --skip-grant-tables &
+
+
+
+
+
+-------------------------------------
+Install PHP 
+-------------------------------------
+
+sudo apt install php-fpm php-mysql
+
+================ Fix issuse =============
+Failed to fetch http://vn.archive.ubuntu.com/ubuntu/dists/focal/InRelease  Temporary failure resolving 'vn.archive.ubuntu.com'
+
+    sudo nano /etc/resolv.conf
+Add:
+    nameserver 8.8.8.8
+    nameserver 8.8.4.4
+
+Or: 
+    echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
+
+Password Mysql root
+tu@n2010138
+=========================================================================
+

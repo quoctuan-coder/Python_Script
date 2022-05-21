@@ -1,0 +1,463 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block head_title %}{{ block.super }} | Books {% endblock head_title %}
+
+{% block extra-css %}
+    <style>
+    table tr:hover {
+        cursor: pointer;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="content ">
+
+        <!-- MODAL Add New Book -->
+        <div class="modal fade stick-up" id="addNewBookModal" tabindex="-1" role="dialog"
+             aria-labelledby="addNewBookModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5"><span class="semi-bold">New</span> Book</h4>
+                    </div>
+                    <form id="formAddBook" role="form" method="POST" autocomplete="off" enctype="multipart/form-data" action="{% url 'dashboard:create_book' %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p class="small-text">Create a new book using this form, make sure you fill them all</p>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>code</label>
+                                        <input id="{{ form_create.code.auto_id }}" name="{{ form_create.code.html_name }}" type="text" class="form-control"
+                                               placeholder="Code of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>title</label>
+                                        <input id="{{ form_create.title.auto_id }}" name="{{ form_create.title.html_name }}" type="text" class="form-control"
+                                               placeholder="Title of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>app url</label>
+                                        <input id="{{ form_create.app_url.auto_id }}" name="{{ form_create.app_url.html_name }}" type="url" class="form-control"
+                                               placeholder="App URL of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>mp3</label>
+                                        <input id="{{ form_create.mp3_file.auto_id }}" name="{{ form_create.mp3_file.html_name }}" type="file" class="form-control"
+                                               placeholder="MP3 of your book" accept="audio/mp3">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="flashMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-cons">Add</button>
+                            <button type="button" class="btn btn-cons" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <!-- MODAL Edit Book -->
+        <div class="modal fade stick-up" id="editBookModal" tabindex="-1" role="dialog"
+             aria-labelledby="editBookModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header clearfix ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
+                                class="pg-close fs-14"></i>
+                        </button>
+                        <h4 class="p-b-5"><span class="semi-bold">Edit</span> Book</h4>
+                    </div>
+                    <form id="formEditbook" role="form" autocomplete="off" method="POST"  action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p class="small-text">Edit your book using this form, make sure you fill them all</p>
+                            <input type="hidden" id="editBookIdInput">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>code</label>
+                                        <input id="{{ form_update.code.auto_id }}" name="{{ form_update.code.html_name }}" type="text" class="form-control"
+                                               placeholder="Code of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>title</label>
+                                        <input id="{{ form_update.title.auto_id }}" name="{{ form_update.title.html_name }}" type="text" class="form-control"
+                                               placeholder="Title of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-group-default required">
+                                        <label>app url</label>
+                                        <input id="{{ form_update.app_url.auto_id }}" name="{{ form_update.app_url.html_name }}" type="url" class="form-control"
+                                               placeholder="App URL of your book">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                               <div class="col-sm-12">
+                                   <div class="form-group form-group-default required">
+                                        <label>mp3</label>
+                                        <div class="mb-2">
+                                            <span>Currently:</span>
+                                            <a href="" class="current-mp3"></a><br>
+                                        </div>
+                                        <input id="{{ form_update.mp3_file.auto_id }}" name="{{ form_update.mp3_file.html_name }}" type="file" class="form-control"
+                                               placeholder="MP3 of your book" accept="audio/mp3">
+                                    </div>
+                               </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="flashMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-cons">Save</button>
+                            <button type="button" class="btn btn-cons" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <!-- MODAL Confirm Delete Book -->
+        <div class="modal fade slide-up disable-scroll" id="deleteBookModal" tabindex="-1" role="dialog"
+             aria-hidden="false">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content-wrapper">
+                    <div class="modal-content">
+                        <div class="modal-body text-center m-t-20">
+                            <h4 class="no-margin p-b-10">Do you really wanna delete this book ?</h4>
+                            <button type="button" class="btn btn-danger btn-cons confirm-delete-book-btn m-t-10"
+                                    data-dismiss="modal">Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+        <!-- /.modal-dialog -->
+
+        <div class="bg-white">
+            <div class="container">
+                <ol class="breadcrumb breadcrumb-alt">
+                    <li class="breadcrumb-item"><a href="{{ SITE_URL }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Books</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include 'dashboard/includes/jumbotron.html' %}
+
+        <!-- START CONTAINER FLUID -->
+        <div class="container-fixed-lg bg-white">
+            <div class="container">
+                <!-- START card -->
+                <div class="card card-transparent">
+                    <div class="card-header ">
+                        <div class="card-title">Books with their questions
+                        </div>
+                        <div class="pull-right">
+                            <div class="col-xs-12">
+                                <button id="addBookBtn" class="btn btn-danger btn-cons"><i class="fa fa-plus"></i> Add Book
+                                </button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover demo-table-dynamic table-responsive-block" id="tableBooks">
+
+                            <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Title</th>
+                                <th>App URL</th>
+                                <th>Date creation</th>
+                                <th class="hidden">MP3</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for book in books %}
+                                <tr data-id="{{ book.id }}" >
+                                    <td class="v-align-middle">
+                                        <p>{{ book.code }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ book.title }}</p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>
+                                            {% if book.app_url %}
+                                                <a href="{{ book.app_url }}" target="_blank">{{ book.app_url }}</a>
+                                            {% else %}
+                                                --
+                                            {% endif %}
+                                        </p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>{{ book.created_at }}</p>
+                                    </td>
+                                    <td class="hidden">
+                                        <a href="{{ book.mp3_file.url }}" target="_blank">MP3</a>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p>
+                                            <a class="edit-book-icon" href="#" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+                                            <a class="delete-book-icon" href="#" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END card -->
+            </div>
+        </div>
+        <!-- END CONTAINER FLUID -->
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+        $(document).ready(function () {
+
+            // Global vars
+            var flashMsgElem = $('#flashMsg');
+
+            // Create dev flash Message
+            function flashMsgDiv(tag, message) {
+                return "<div class=\"alert alert-" + tag + " bordered\" role=\"alert\">\n" +
+                    "<p class=\"pull-left\">" + message + "</p>\n" +
+                    "<div class=\"clearfix\"></div>\n" +
+                    "</div>"
+            }
+
+            // Get and clear local storage item
+            function getStorageItem(item){
+                // Get it if item key found
+                if(localStorage.getItem(item)){
+                    $('.page-content-wrapper').pgNotification({
+                        style: 'bar',
+                        message: localStorage.getItem(item),
+                        position: 'top',
+                        timeout: 0,
+                        type: 'success'
+                    }).show();
+                    localStorage.clear();
+                }
+            }
+
+            var clickEditBook = function () {
+                // Click edit book icon
+                $('.edit-book-icon').click(function (e) {
+                    e.preventDefault();
+
+                    // prefill form edit book
+                    var currentRow = $(this).closest('tr');
+                    const bookId = currentRow.data('id');
+                    $('#editBookIdInput').val(bookId);
+                    var bookCode = currentRow.find("td:eq(0)").text();
+                    bookCode = $.trim(bookCode);
+                    $('#{{ form_update.code.auto_id }}').val(bookCode);
+                    var bookTitle = currentRow.find("td:eq(1)").text();
+                    bookTitle = $.trim(bookTitle);
+                    $('#{{ form_update.title.auto_id }}').val(bookTitle);
+                    var bookAppURL = currentRow.find("td:eq(2)").text();
+                    bookAppURL = $.trim(bookAppURL);
+                    if(bookAppURL === '--') bookAppURL = ""
+                    $('#{{ form_update.app_url.auto_id }}').val(bookAppURL);
+
+                    var bookMP3File = currentRow.find("td:eq(4)").find('a');
+                    var linkMP3File = $(bookMP3File).attr('href')
+                    var currentMP3File = $('#{{ form_update.mp3_file.auto_id }}').parents().find('.current-mp3');
+                    currentMP3File.attr('href', linkMP3File);
+                    currentMP3File.text(linkMP3File);
+
+                    // Show Modal
+                    $('#editBookModal').modal('show');
+
+                });
+            }
+
+            var clickBookRowToAddQuestions = function () {
+                // Click book row on table
+                $('#tableBooks tr').click(function (e) {
+                    if (!$(e.target).hasClass('fa-edit') && !$(e.target).hasClass('fa-trash')) {
+                        const bookId = $(this).data('id');
+                        window.location.href = "{% url 'dashboard:book_questions' 1 %}".replace(1, bookId);
+                    }
+                });
+            }
+
+            var clickDeleteBook = function () {
+                // Click delete book icon
+                $('.delete-book-icon').click(function (e) {
+                    e.preventDefault();
+                    var currentRow = $(this).closest('tr');
+                    const bookId = currentRow.data('id');
+
+                    // Show Modal Confirmation Delete
+                    $('#deleteBookModal').modal('show');
+
+                    // Delete book
+                    $('.confirm-delete-book-btn').click(function (e) {
+                        const url = "{% url 'dashboard:delete_book' 1 %}".replace(1, bookId);
+                        $.get(url).done(function (response) {
+                            if (response.success) {
+                                localStorage.setItem("DeleteBook", response.message);
+                                location.reload();
+                            } else {
+                                flashMsgElem.html(flashMsgDiv('danger', response.message));
+                            }
+                        }).fail(function (res) {
+                            flashMsgElem.html(flashMsgDiv('danger', res.message));
+                        })
+                    });
+
+                });
+            }
+
+            // Initialize datatable with ability to add rows dynamically
+            var initTableBooks = function () {
+
+                var table = $('#tableBooks');
+
+                var settings = {
+                    "sDom": "<t><'row'<p i>>",
+                    "destroy": true,
+                    "scrollCollapse": true,
+                    "oLanguage": {
+                        "sLengthMenu": "_MENU_ ",
+                        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+                    },
+                    "iDisplayLength": 5,
+                    "ordering": false,
+                    "drawCallback": function( settings ) {
+                        clickEditBook();
+                        clickBookRowToAddQuestions();
+                        clickDeleteBook();
+                    }
+                };
+
+                table.dataTable(settings);
+
+                // Add new book through modal
+                $('#addBookBtn').click(function () {
+                    $('#addNewBookModal').modal('show');
+                });
+
+            }
+
+            $('#formAddBook').validate({
+                ignore: [],
+                rules: {
+                    '{{ form_create.code.html_name }}': {
+                      required: true,
+                      maxlength: 20
+                    },
+                    '{{ form_create.title.html_name }}': {
+                      required: true,
+                      maxlength: 255
+                    },
+                    '{{ form_create.app_url.html_name }}': {
+                      required: true,
+                      maxlength: 100
+                    },
+                    '{{ form_create.mp3_file.html_name }}': {
+                      required: true,
+                    }
+                },
+                onfocusout: function(element) {
+                    $(element).valid();
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                },
+            });
+
+            // Get & Clear local storage AddBook
+            getStorageItem("AddBook");
+
+            // Datatable
+            initTableBooks();
+
+            // Get & Clear local storage DeleteBook
+            getStorageItem("DeleteBook");
+
+            // Submit edit book
+            $('#formEditbook').validate({
+                ignore: [],
+                 rules: {
+                    '{{ form_update.code.html_name }}': {
+                      required: true,
+                      maxlength: 20
+                    },
+                    '{{ form_update.title.html_name }}': {
+                      required: true,
+                      maxlength: 255
+                    },
+                    '{{ form_update.app_url.html_name }}': {
+                      required: true,
+                      maxlength: 100
+                    }
+                },
+                onfocusout: function(element) {
+                    $(element).valid();
+                },
+                submitHandler: function(form) {
+                    const bookId = $('#editBookIdInput').val();
+                    const url = "{% url 'dashboard:update_book' 1 %}".replace(1, bookId);
+
+                    $(form).attr('action', url);
+                    form.submit();
+                },
+            });
+
+            // Get & Clear local storage EditBook
+            getStorageItem("EditBook");
+        });
+    </script>
+
+{% endblock %}

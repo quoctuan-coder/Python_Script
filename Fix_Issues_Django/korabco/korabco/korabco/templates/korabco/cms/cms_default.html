@@ -1,0 +1,48 @@
+{% extends "korabco/cms_base.html" %}
+{% load cms_tags %}
+
+{% block title %}Korabco | {% page_attribute "page_title" %}{% endblock %}
+
+{% block meta_tags %}
+    <meta name="description" content="{% page_attribute meta_description %}"/>
+{% endblock %}
+
+{% block content %}
+
+    <section id="simple-reading" class="middle skill-area">
+        <div class="container">
+             {% placeholder simple-reading %}
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#simple reading section-->
+
+    <section id="free-mp3" class="middle skill-area">
+        <div class="container">
+            {% placeholder free-mp3 %}
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#free mp3 section-->
+
+    <section id="free-membership" class="middle skill-area">
+        <div class="container">
+            {% placeholder free-membership %}
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#free membership section-->
+
+    <section id="why-korabco" class="middle skill-area">
+        <div class="container">
+            {% placeholder why-korabco %}
+        </div>
+        <!--/.container-->
+    </section>
+    <!--/#why korabco section-->
+
+    {% placeholder feature %}
+
+    {% placeholder testimonial %}
+
+{% endblock %}

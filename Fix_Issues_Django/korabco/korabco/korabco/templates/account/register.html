@@ -1,0 +1,115 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+
+{% block head_title %}Register |{% endblock %}
+
+{% block content %}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="signupForm" action="{% url 'account:register' %}" method="POST"
+                      class="login100-form validate-form">
+                    {% csrf_token %}
+
+                    <span class="login100-form-logo">
+                        <img src="{% static 'korabco/images/logo.png' %}" alt="logo" style="width: 150px;">
+                    </span>
+
+                    <div class="wrap-login100">
+
+                        <span class="login100-form-title p-b-34 p-t-27">
+                            Register
+                        </span>
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter email valid">
+                            <input type="text"
+                                   class="input100"
+                                   name="{{ register_form.email.name }}"
+                                   id="id_{{ register_form.email.name }}"
+                                   placeholder="Email">
+                            <span class="focus-input100" data-placeholder="&#xf15a;"></span>
+                        </div>
+                        {% if register_form.email.errors %}
+                        <div class="alert alert-danger">
+                            {{ register_form.email.errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter name">
+                            <input type="text"
+                                   class="input100"
+                                   name="{{ register_form.first_name.name }}"
+                                   id="id_{{ register_form.first_name.name }}"
+                                   placeholder="Name">
+                            <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                        </div>
+                        {% if register_form.first_name.errors %}
+                        <div class="alert alert-danger">
+                            {{ register_form.first_name.errors }}
+                        </div>
+                        {% endif %}
+
+<!--                        <div class="wrap-input100 validate-input" data-validate="Enter last name">-->
+<!--                            <input type="text"-->
+<!--                                   class="input100"-->
+<!--                                   name="{{ register_form.last_name.name }}"-->
+<!--                                   id="id_{{ register_form.last_name.name }}"-->
+<!--                                   placeholder="Last Name">-->
+<!--                            <span class="focus-input100" data-placeholder="&#xf207;"></span>-->
+<!--                        </div>-->
+<!--                        {% if register_form.last_name.errors %}-->
+<!--                        <div class="alert alert-danger">-->
+<!--                            {{ register_form.last_name.errors }}-->
+<!--                        </div>-->
+<!--                        {% endif %}-->
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter password">
+                            <input type="password"
+                                   class="input100"
+                                   name="{{ register_form.password1.name }}"
+                                   id="id_{{ register_form.password1.name }}"
+                                   placeholder="Password">
+                            <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                        </div>
+                        {% if register_form.password1.errors %}
+                        <div class="alert alert-danger">
+                            {{ register_form.password1.errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter confirm password">
+                            <input type="password"
+                                   class="input100"
+                                   name="{{ register_form.password2.name }}"
+                                   id="id_{{ register_form.password2.name }}"
+                                   placeholder="Confirm password">
+                            <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                        </div>
+                        {% if register_form.password2.errors %}
+                        <div class="alert alert-danger">
+                            {{ register_form.password2.errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="submit" name="submit">
+                                Register
+                            </button>
+                        </div>
+
+                        <div class="text-center p-t-50">
+                            <a class="txt2" href="{% url 'account:login' %}">
+                                Already Have an Account ?
+                            </a><br>
+                            <a class="txt2" href="{{ SITE_URL }}">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

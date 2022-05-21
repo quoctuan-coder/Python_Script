@@ -1,0 +1,43 @@
+<div class="bg-white">
+    <div class="container">
+        <div class="menu-bar header-sm-height" data-pages-init='horizontal-menu' data-hide-extra-li="4">
+            <a href="#" class="btn-link toggle-sidebar d-lg-none pg pg-close" data-toggle="horizontal-menu">
+            </a>
+            <ul>
+                <li {% if  request.path_info == '/dashboard/' and request.user.is_superuser %}class="active" {% endif %}>
+                    <a href="{% url 'dashboard:home' %}">
+                        {% if request.user.is_superuser %}
+                            Admin Dashboard
+                        {% else %}
+                            User Dashboard
+                        {% endif %}
+                    </a>
+                </li>
+                {% if request.user.is_superuser %}
+                <li {% if 'books' in request.path_info or 'questions' in request.path_info %}class="active" {% endif %}>
+                    <a href="{% url 'dashboard:books' %}"><span class="title">Books</span></a>
+                </li>
+                <li {% if 'review-urls' in request.path_info %}class="active" {% endif %}>
+                    <a href="{% url 'dashboard:book_review_urls' %}"><span class="title">ReviewURLs</span></a>
+                </li>
+                <li {% if 'reports' in request.path_info %}class="active" {% endif %}>
+                    <a href="javascript:;"><span class="title">Reports</span>
+                        <span class=" arrow"></span></a>
+                    <ul class="">
+                        <li {% if 'book/reports' in request.path_info %}class="active" {% endif %}>
+                            <a href="{% url 'dashboard:reports'  model_name='book' %}">Books</a>
+                        </li>
+                        <li {% if 'question/reports' in request.path_info %}class="active" {% endif %}>
+                            <a href="{% url 'dashboard:reports'  model_name='question' %}">BookQuestions</a>
+                        </li>
+                        <li {% if 'review-url/reports' in request.path_info %}class="active" {% endif %}>
+                            <a href="{% url 'dashboard:reports'  model_name='review-url' %}">ReviewURLs</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</div>

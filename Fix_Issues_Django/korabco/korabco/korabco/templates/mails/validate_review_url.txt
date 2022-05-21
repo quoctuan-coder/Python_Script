@@ -1,0 +1,5 @@
+Hello,
+
+Your app is ready :
+
+Please click here {{ app_url }}

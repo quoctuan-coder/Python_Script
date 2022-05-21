@@ -1,0 +1,13 @@
+{% extends 'mails/base_email.html' %}
+
+{% block content %}
+    <div class="text" style="padding: 0 2.5em; text-align: center;">
+        <h4>
+            Hello,<br><br>
+
+            Please click on the link below to confirm your registration :<br><br>
+
+            {{ protocol }}://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}
+        </h4>
+    </div>
+{% endblock %}

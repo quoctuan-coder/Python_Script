@@ -1,0 +1,66 @@
+{% load i18n cms_tags sekizai_tags menu_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'images/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'images/favicon/safari-pinned-tab.svg" color="#5bbad5' %}">
+    <link rel="shortcut icon" href="images/ico/favicon.ico">
+
+
+    {% block meta_tags %}{% endblock %}
+
+    {% render_block "css" %}
+
+    {% block base_stylesheet %}
+        <!-- core CSS -->
+        <link href="{% static 'korabco/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'korabco/css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'korabco/css/animate.min.css' %}" rel="stylesheet">
+        <link href="{% static 'korabco/css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'korabco/css/responsive.css' %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block css %}{% endblock css %}
+
+    <!--[if lt IE 9]>
+    <script src="{% static 'korabco/js/html5shiv.js' %}"></script>
+    <script src="{% static 'korabco/js/respond.min.js' %}"></script>
+    <![endif]-->
+</head>
+<!--/head-->
+
+<body class="homepage">
+
+    {% cms_toolbar %}
+
+
+    {% block page %}
+
+        {% include 'korabco/header.html' %}
+
+        {% block content %}{% endblock content %}
+
+        {% include 'korabco/footer.html' %}
+
+    {% endblock %}
+
+    {% block base_js %}
+        <script src="{% static 'korabco/js/jquery.js' %}"></script>
+        <script src="{% static 'korabco/js/bootstrap.min.js' %}"></script>
+    {% endblock %}
+
+    {% render_block "js" %}
+
+    {% block js %}{% endblock js %}
+</body>
+
+</html>

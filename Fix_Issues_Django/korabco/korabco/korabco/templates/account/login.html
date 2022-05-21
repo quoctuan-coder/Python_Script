@@ -1,0 +1,73 @@
+{% extends 'account/account_base.html' %}
+{% load static %}
+
+{% block head_title %}Login |{% endblock %}
+
+{% block content %}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="loginForm" action="{% url 'account:login' %}" method="POST"
+                      class="login100-form validate-form">
+                    {% csrf_token %}
+
+                    <div class="login100-form-logo">
+                        <img src="{% static 'korabco/images/logo.png' %}" alt="logo" style="width: 150px;">
+                    </div>
+
+                    <div class="wrap-login100">
+
+                        <span class="login100-form-title p-b-34 p-t-27">
+                            Log in
+                        </span>
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter email valid">
+                            <input type="text"
+                                   class="input100"
+                                   name="{{ login_form.email.name }}"
+                                   id="id_{{ login_form.email.name }}"
+                                   placeholder="Email">
+                            <span class="focus-input100" data-placeholder="&#xf15a;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter password">
+                            <input type="password"
+                                   class="input100"
+                                   name="{{ login_form.password.name }}"
+                                   id="id_{{ login_form.password.name }}"
+                                   placeholder="Password">
+                            <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                        </div>
+
+                        <div class="contact100-form-checkbox">
+                            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                            <label class="label-checkbox100" for="ckb1">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="submit" name="submit">
+                                Login
+                            </button>
+                        </div>
+
+                        <div class="text-center p-t-50">
+                            <a class="txt2" href="{% url 'account:password_reset' %}">
+                                Forgot Password ?
+                            </a><br>
+                            <a class="txt2" href="{% url 'account:register' %}">
+                                Create New Account !
+                            </a><br>
+                            <a class="txt2" href="{{ SITE_URL }}">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

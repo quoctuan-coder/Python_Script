@@ -96,3 +96,18 @@
 
 
 
+-----------------------------------------------------------------------------
+1. FIle descriptor:
+- socket, stdout, sdtin, stderr is file.
+- Number of integer unique.
+- In linux everything is a file.
+
+2. socket
+#include <sys/socket.h>
+
+int socket(int domain, int type, int protocol);
+-- create an endpoint for communication.
+
+
+
+============================
